@@ -1,0 +1,15 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Pagination} from '../../src';
+import * as PaginationStories from './Pagination.stories';
+
+<Meta of={PaginationStories} />
+
+export const Template = (args) => <Pagination {...args} />;
+
+# Pagination
+
+<Canvas>
+  <Story of={PaginationStories.PaginationStory} />
+</Canvas>
+
+<Controls />

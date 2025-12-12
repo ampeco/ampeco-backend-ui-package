@@ -1,0 +1,14 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Message} from '../../src';
+import defaultImageUrl from '../assets/no-matching-results.svg';
+import * as MessageStories from './Message.stories';
+
+<Meta of={MessageStories} />
+
+export const Template = (args) => <Message {...args}/>;
+
+<Canvas>
+  <Story of={MessageStories.MessageStory} />
+</Canvas>
+
+<Controls />

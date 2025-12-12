@@ -1,0 +1,20 @@
+import { Affix, Input as InputComponent } from "../../src";
+import { CalendarIcon, EnvelopeIcon } from "@heroicons/react/24/solid";
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import * as InputStories from "./Input.stories";
+
+<Meta of={InputStories} />
+
+export const Template = (args) => (
+	<InputComponent
+		{...args}
+		prefix={<Affix>{args.prefix}</Affix>}
+		suffix={<Affix>{args.suffix}</Affix>}
+	/>
+);
+
+<Canvas>
+	<Story of={InputStories.InputStory} />
+</Canvas>
+
+<Controls />

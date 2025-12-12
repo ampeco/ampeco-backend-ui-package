@@ -1,0 +1,15 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {DatePicker} from '../../src';
+import * as DatePickerStories from './DatePicker.stories';
+
+<Meta of={DatePickerStories} />
+
+export const Template = (args) => <DatePicker {...args} />
+
+# Date Picker
+
+<Canvas>
+  <Story of={DatePickerStories.DatePickerStory} />
+</Canvas>
+
+<Controls />

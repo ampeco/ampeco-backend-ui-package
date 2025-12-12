@@ -1,0 +1,16 @@
+import React from "react";
+import {FabButton} from "../../src";
+import { Controls, Canvas, Meta, Story } from '@storybook/blocks';
+import * as FabButtonStories from './FabButton.stories';
+
+<Meta of={FabButtonStories} />
+
+export const Template = (args) => <FabButton {...args}>+</FabButton>;
+
+# FabButton
+
+<Canvas>
+  <Story of={FabButtonStories.FabButtonStory} />
+</Canvas>
+
+<Controls />

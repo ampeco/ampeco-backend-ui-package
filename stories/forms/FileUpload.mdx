@@ -1,0 +1,15 @@
+import {Controls, BooleanControl, Canvas, Meta, Story} from '@storybook/blocks';
+import {FileUpload} from '../../src';
+import * as FileUploadStories from './FileUpload.stories';
+
+<Meta of={FileUploadStories} />
+
+export const Template = (args) => <File {...args} />;
+
+# File
+
+<Canvas>
+  <Story of={FileUploadStories.FileUploadStory} />
+</Canvas>
+
+<Controls />

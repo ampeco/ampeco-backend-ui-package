@@ -1,0 +1,15 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Breadcrumbs} from '../../src';
+import * as BreadcrumbsStories from './Breadcrumbs.stories';
+
+<Meta of={BreadcrumbsStories} />
+
+export const Template = (args) => <Breadcrumbs {...args} />;
+
+# Breadcrumbs
+
+<Canvas>
+  <Story of={BreadcrumbsStories.BreadcrumbsStory} />
+</Canvas>
+
+<Controls />

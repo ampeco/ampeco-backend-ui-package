@@ -1,0 +1,25 @@
+import {Radio} from '../../src';
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as RadioStories from './Radio.stories';
+
+<Meta of={RadioStories} />
+
+export const Template = (args) => <Radio {...args} />;
+
+# Radio Button
+
+<Canvas>
+  <Story of={RadioStories.Unchecked} />
+
+  <Story of={RadioStories.Checked} />
+
+  <Story of={RadioStories.Disabled} />
+</Canvas>
+
+## Radio API
+
+<Canvas>
+  <Story of={RadioStories.RadioApi} />
+</Canvas>
+
+<Controls />

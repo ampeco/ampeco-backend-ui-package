@@ -1,0 +1,13 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Card} from '../../src';
+import * as CardStories from './Card.stories';
+
+<Meta of={CardStories} />
+
+export const Template = (args) => <Card {...args}>Card Content</Card>;
+
+<Canvas style={{backgroundColor:'#EEF0F3'}}>
+  <Story of={CardStories.CardStory} />
+</Canvas>
+
+<Controls />

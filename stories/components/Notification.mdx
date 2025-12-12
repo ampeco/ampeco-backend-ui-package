@@ -1,0 +1,13 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { NotificationProvider } from "../../src";
+import * as NotificationStories from "./Notification.stories";
+
+<Meta of={NotificationStories} />
+
+export const Template = (args) => <NotificationProvider {...args} />;
+
+<Canvas>
+	<Story of={NotificationStories.Default} />
+</Canvas>
+
+<Controls />

@@ -1,0 +1,16 @@
+import React from "react";
+import {List} from "../../src";
+import { Controls, Canvas, Meta, Story } from '@storybook/blocks';
+import * as ListStories from './List.stories';
+
+<Meta of={ListStories} />
+
+export const Template = (args) => <List {...args}>List</List>;
+
+# List
+
+<Canvas>
+  <Story of={ListStories.ListStory} />
+</Canvas>
+
+<Controls />

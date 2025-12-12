@@ -1,0 +1,43 @@
+import {
+	Popover as PopoverComponent,
+	PopoverTrigger,
+	PopoverContent,
+	PopoverClose,
+} from "../../src";
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as PopoverStories from './Popover.stories';
+
+<Meta of={PopoverStories} />
+
+export const Template = (args) => (
+	<>
+		<PopoverComponent {...args}>
+			<PopoverTrigger>
+				<button
+					style={{
+						position: "fixed",
+						top: "50%",
+						left: "50%",
+					}}
+				>
+					Click me
+				</button>
+			</PopoverTrigger>
+			<PopoverContent>
+				Some Content
+				<input type="text" />
+				<PopoverClose className='close-button'>
+					<button>X</button>
+				</PopoverClose>
+			</PopoverContent>
+		</PopoverComponent>
+	</>
+);
+
+# Popover
+
+<Canvas>
+  <Story of={PopoverStories.PopoverStory} />
+</Canvas>
+
+<Controls />

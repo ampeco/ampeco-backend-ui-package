@@ -1,0 +1,13 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { Dialog } from "../../src";
+import * as DialogStories from "./Dialog.stories";
+
+<Meta of={DialogStories} />
+
+export const Template = (args) => <Dialog {...args} />;
+
+<Canvas style={{ height: "500px" }}>
+	<Story of={DialogStories.Default} />
+</Canvas>
+
+<Controls />

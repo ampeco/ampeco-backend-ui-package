@@ -1,0 +1,13 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Table} from '../../src';
+import * as TableStories from './Table.stories';
+
+<Meta of={TableStories} />
+
+export const Template = (args) => <Table {...args} />
+
+<Canvas>
+  <Story of={TableStories.TableStory} />
+</Canvas>
+
+<Controls />

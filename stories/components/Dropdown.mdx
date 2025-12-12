@@ -1,0 +1,15 @@
+import {Dropdown, Button} from '../../src';
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as DropdownStories from './Dropdown.stories';
+
+<Meta of={DropdownStories} />
+
+export const Template = (args) => <Dropdown {...args}/>;
+
+## Dropdown API
+
+<Canvas>
+  <Story of={DropdownStories.DropdownStory} />
+</Canvas>
+
+<Controls />

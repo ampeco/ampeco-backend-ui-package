@@ -1,0 +1,15 @@
+import {Toggle} from '../../src';
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as ToggleStories from './Toggle.stories';
+
+<Meta of={ToggleStories} />
+
+export const Template = (args) => <Toggle {...args} />;
+
+# Toggle
+
+<Canvas>
+  <Story of={ToggleStories.InteractiveToggle} />
+</Canvas>
+
+<Controls/>

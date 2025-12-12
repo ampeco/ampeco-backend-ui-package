@@ -1,0 +1,26 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Tooltip} from '../../src';
+import {useState} from 'react';
+import * as TooltipStories from './Tooltip.stories';
+
+<Meta of={TooltipStories} />
+
+export const Template = (args) => {
+  const [isOpen, setisOpen] = useState(false);
+  return (
+      <Tooltip {...args} isOpen={isOpen}>
+        <div 
+          onMouseEnter={() => setisOpen(true)} 
+          onMouseLeave={() => setisOpen(false)}
+        >
+          {args.children}
+        </div>
+      </Tooltip>
+  )
+}
+
+<Canvas>
+  <Story of={TooltipStories.TooltipStory} />
+</Canvas>
+
+<Controls />

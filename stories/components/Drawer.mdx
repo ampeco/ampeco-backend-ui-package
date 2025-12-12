@@ -1,0 +1,13 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { Drawer } from "../../src";
+import * as DrawerStories from "./Drawer.stories";
+
+<Meta of={DrawerStories} />
+
+export const Template = (args) => <Drawer {...args} />;
+
+<Canvas>
+	<Story of={DrawerStories.Default} />
+</Canvas>
+
+<Controls />

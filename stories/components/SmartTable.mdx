@@ -1,0 +1,13 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {SmartTable} from '../../src';
+import * as SmartTableStories from './SmartTable.stories';
+
+<Meta of={SmartTableStories} />
+
+export const Template = (args) => <SmartTable {...args} />
+
+<Canvas>
+  <Story of={SmartTableStories.SmartTableStory} />
+</Canvas>
+
+<Controls />

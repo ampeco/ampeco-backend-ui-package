@@ -1,0 +1,15 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Alert} from '../../src';
+import * as AlertStories from './Alert.stories';
+
+<Meta of={AlertStories} />
+
+export const Template = (args) => <Alert {...args} />;
+
+# Alert
+
+<Canvas>
+  <Story of={AlertStories.AlertStory} />
+</Canvas>
+
+<Controls />

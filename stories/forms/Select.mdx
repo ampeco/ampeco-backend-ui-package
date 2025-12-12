@@ -1,0 +1,17 @@
+import {Select} from '../../src';
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as SelectStories from './Select.stories';
+
+<Meta of={SelectStories} />
+
+export const Template = (args) => <>
+	<Select {...args}/>
+</>;
+
+## Select API
+
+<Canvas>
+  <Story of={SelectStories.SelectStory} />
+</Canvas>
+
+<Controls />

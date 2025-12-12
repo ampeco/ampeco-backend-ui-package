@@ -1,0 +1,16 @@
+import React from "react"
+import { Skeleton as SkeletonComponent } from '../../src/components/skeleton/Skeleton';
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import * as SkeletonStories from './Skeleton.stories';
+
+<Meta of={SkeletonStories} />
+
+export const Template = (args) => <SkeletonComponent {...args} />
+
+# Skeleton
+
+<Canvas>
+  <Story of={SkeletonStories.SkeletonStory} />
+</Canvas>
+
+<Controls />

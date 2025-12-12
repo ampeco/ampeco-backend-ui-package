@@ -1,0 +1,15 @@
+import {Controls, BooleanControl, Canvas, Meta, Story} from '@storybook/blocks';
+import {Accordion} from '../../src';
+import * as AccordionStories from './Accordion.stories';
+
+<Meta of={AccordionStories} />
+
+export const Template = (args) => <Accordion {...args} />;
+
+# Accordion
+
+<Canvas>
+  <Story of={AccordionStories.AccordionStory} />
+</Canvas>
+
+<Controls />

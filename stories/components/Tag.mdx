@@ -1,0 +1,13 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { Tag } from "../../src";
+import * as TagStories from "./Tag.stories";
+
+<Meta of={TagStories} />
+
+export const Template = (args) => <Tag {...args} />;
+
+<Canvas>
+	<Story of={TagStories.TagStory} />
+</Canvas>
+
+<Controls />

@@ -1,0 +1,15 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { TimePicker } from "../../src";
+import * as TimePickerStories from "./TimePicker.stories";
+
+<Meta of={TimePickerStories} />
+
+export const Template = (args) => <TimePicker {...args} />;
+
+# Time Picker
+
+<Canvas>
+	<Story of={TimePickerStories.TimePickerStory} />
+</Canvas>
+
+<Controls />

@@ -1,0 +1,15 @@
+import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
+import {Loader} from '../../src';
+import * as LoaderStories from './Loader.stories';
+
+<Meta of={LoaderStories} />
+
+export const Template = (args) => <Loader {...args} />;
+
+# Loader
+
+<Canvas>
+  <Story of={LoaderStories.LoaderStory} />
+</Canvas>
+
+<Controls />

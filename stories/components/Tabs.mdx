@@ -1,0 +1,25 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { Tab, Tabs } from "../../src";
+import * as TabsStories from "./Tabs.stories";
+
+<Meta of={TabsStories} />
+
+export const Template = (args) => (
+	<Tabs {...args} defaultSelected="tab1">
+		<Tab title="Tab 1 Title" id="tab1">
+			Tab 1
+		</Tab>
+		<Tab title="Tab 2 Title" id="tab2">
+			Tab 2
+		</Tab>
+		<Tab title="Tab 3 Title" id="tab3">
+			Tab 3
+		</Tab>
+	</Tabs>
+);
+
+<Canvas>
+	<Story of={TabsStories.TabsStory} />
+</Canvas>
+
+<Controls />

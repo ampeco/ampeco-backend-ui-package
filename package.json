@@ -1,0 +1,83 @@
+{
+	"name": "@ampeco/nova-design-system",
+	"version": "0.1.0",
+	"files": [
+		"dist"
+	],
+	"main": "nova-design-system.cjs.js",
+	"module": "nova-design-system.es.js",
+	"types": "./dist/types/index.d.ts",
+	"type": "module",
+	"scripts": {
+		"build:lib": "tsc && vite build",
+		"build:storybook": "vitest run --coverage && storybook build",
+		"start:storybook": "storybook dev",
+		"prepack": "json -f package.json -I -e \"delete this.devDependencies; delete this.dependencies\"",
+		"package:publish": "npm run build:lib && npm publish",
+		"test": "vitest",
+		"test:coverage": "vitest run --coverage"
+	},
+	"exports": {
+		".": {
+			"types": "./dist/types/index.d.ts",
+			"import": "./dist/nova-design-system.es.js",
+			"require": "./dist/nova-design-system.cjs.js"
+		},
+		"./dist/style.css": "./dist/style.css",
+		"./dist/assets/*": "./dist/assets/*"
+	},
+	"engines": {
+		"node": "18.x || 20.x || 22.x"
+	},
+	"dependencies": {
+		"@heroicons/react": "^2.2.0",
+		"classnames": "^2.3.2",
+		"react-imask": "^7.1.2",
+		"tailwindcss": "^4.1.17"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.20.2",
+		"@chromatic-com/storybook": "^3.2.4",
+		"@storybook/addon-actions": "^8.5.8",
+		"@storybook/addon-docs": "^8.5.8",
+		"@storybook/addon-essentials": "^8.5.8",
+		"@storybook/addon-interactions": "^8.5.8",
+		"@storybook/addon-links": "^8.5.8",
+		"@storybook/addon-mdx-gfm": "^8.5.8",
+		"@storybook/mdx2-csf": "^1.1.0",
+		"@storybook/react": "^8.5.8",
+		"@storybook/react-vite": "^8.5.8",
+		"@storybook/test": "^8.5.8",
+		"@tailwindcss/vite": "^4.1.17",
+		"@testing-library/jest-dom": "^6.4.2",
+		"@testing-library/react": "^16.2.0",
+		"@testing-library/user-event": "^14.5.2",
+		"@types/node": "^22.13.4",
+		"@types/react": "19.0.10",
+		"@types/react-dom": "19.0.4",
+		"@typescript-eslint/eslint-plugin": "^8.24.1",
+		"@typescript-eslint/parser": "^8.24.1",
+		"@vitejs/plugin-react": "^4.3.1",
+		"@vitest/coverage-v8": "^3.0.6",
+		"babel-loader": "^9.2.1",
+		"eslint": "^9.20.1",
+		"eslint-plugin-react": "^7.31.11",
+		"eslint-plugin-react-hooks": "^5.1.0",
+		"eslint-plugin-storybook": "^0.11.3",
+		"jsdom": "^26.0.0",
+		"json": "^11.0.0",
+		"react-markdown": "^10.0.0",
+		"storybook": "^8.5.8",
+		"typescript": "~5.7.2",
+		"vite": "^6.1.1",
+		"vite-plugin-dts": "^4.5.0",
+		"vite-plugin-static-copy": "^2.3.1",
+		"vite-raw-plugin": "^1.0.2",
+		"vitest": "^3.0.6"
+	},
+	"peerDependencies": {
+		"react": "^19.0.0",
+		"react-dom": "^19.0.0",
+		"react-router-dom": "^7.2.0"
+	}
+}

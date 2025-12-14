@@ -29,7 +29,8 @@ jobs:
           scope: '@ampeco'
 
       - name: Install dependencies
-        run: npm ci
+        run: |
+          npm ci || (rm -rf node_modules package-lock.json && npm install)
 
       - name: Run tests
         run: npm test

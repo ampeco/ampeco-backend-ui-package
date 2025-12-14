@@ -32,9 +32,9 @@ const app = async (): Promise<UserConfigExport> => {
 		build: {
 			lib: {
 				entry: path.resolve(__dirname, "./src/index.ts"),
-				name: "nova-design-system",
+				name: "ampeco-ui
 				formats: ["cjs", "es"],
-				fileName: (format) => `nova-design-system.${format}.js`,
+				fileName: (format) => `ampeco-ui}.js`,
 				cssFileName: "style",
 			},
 			chunkSizeWarningLimit: 1024,

@@ -1,11 +1,11 @@
 {
-	"name": "@ampeco/nova-design-system",
+	"name": "@ampeco/ampeco-ui",
 	"version": "0.1.0",
 	"files": [
 		"dist"
 	],
-	"main": "nova-design-system.cjs.js",
-	"module": "nova-design-system.es.js",
+	"main": "ampeco-ui.cjs.js",
+	"module": "ampeco-ui.es.js",
 	"types": "./dist/types/index.d.ts",
 	"type": "module",
 	"scripts": {
@@ -20,8 +20,8 @@
 	"exports": {
 		".": {
 			"types": "./dist/types/index.d.ts",
-			"import": "./dist/nova-design-system.es.js",
-			"require": "./dist/nova-design-system.cjs.js"
+			"import": "./dist/ampeco-ui.es.js",
+			"require": "./dist/ampeco-ui.cjs.js"
 		},
 		"./dist/style.css": "./dist/style.css",
 		"./dist/assets/*": "./dist/assets/*"

@@ -1,0 +1,19 @@
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { Chart } from "../../src";
+import * as ChartStories from "./Chart.stories";
+
+<Meta of={ChartStories} />
+
+export const Template = (args) => <Chart {...args} />;
+
+# Chart
+
+The Chart component provides a React wrapper for ApexCharts, supporting various chart types including line, area, bar, pie, donut, and more.
+
+## Line Chart
+
+<Canvas>
+	<Story of={ChartStories.LineChart} />
+</Canvas>
+
+<Controls />

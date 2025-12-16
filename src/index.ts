@@ -60,6 +60,8 @@ export * from "./components/skeleton/Skeleton";
 
 export * from "./components/card/Card";
 
+export * from "./components/chart/Chart";
+
 export * from "./components/message/Message";
 
 export * from "./components/popover/Popover";

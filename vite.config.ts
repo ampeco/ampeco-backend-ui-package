@@ -32,9 +32,9 @@ const app = async (): Promise<UserConfigExport> => {
 		build: {
 			lib: {
 				entry: path.resolve(__dirname, "./src/index.ts"),
-				name: "ampeco-ui
+				name: "ampeco-ui",
 				formats: ["cjs", "es"],
-				fileName: (format) => `ampeco-ui}.js`,
+				fileName: (format) => `ampeco-ui.${format}.js`,
 				cssFileName: "style",
 			},
 			chunkSizeWarningLimit: 1024,

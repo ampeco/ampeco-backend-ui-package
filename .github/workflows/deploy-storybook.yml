@@ -32,9 +32,6 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Rebuild native dependencies
-        run: npm rebuild lightningcss
-
       - name: Build Storybook
         run: npm run build:storybook
 

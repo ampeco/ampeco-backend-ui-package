@@ -1,6 +1,23 @@
 {
 	"name": "@ampeco/ampeco-ui",
 	"version": "0.1.0",
+	"description": "A collection of React UI components built with Tailwind CSS, based on Nova",
+	"license": "MIT",
+	"author": "Ampeco",
+	"keywords": [
+		"react",
+		"ui",
+		"components",
+		"tailwind",
+		"tailwindcss",
+		"design-system",
+		"ui-library",
+		"ampeco"
+	],
+	"homepage": "https://ampeco.github.io/ampeco-backend-ui-package/",
+	"bugs": {
+		"url": "https://github.com/ampeco/ampeco-backend-ui-package/issues"
+	},
 	"repository": {
 		"type": "git",
 		"url": "https://github.com/ampeco/ampeco-backend-ui-package.git"

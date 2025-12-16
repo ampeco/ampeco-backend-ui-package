@@ -30,7 +30,10 @@ jobs:
           node-version: '20.x'
 
       - name: Install dependencies
-        run: npm install --include=optional
+        run: npm ci
+
+      - name: Rebuild native dependencies
+        run: npm rebuild lightningcss
 
       - name: Build Storybook
         run: npm run build:storybook

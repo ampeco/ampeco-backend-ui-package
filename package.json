@@ -1,6 +1,6 @@
 {
 	"name": "@ampeco/ampeco-ui",
-	"version": "0.2.0",
+	"version": "0.3.0",
 	"description": "A collection of React UI components built with Tailwind CSS, based on Nova",
 	"license": "MIT",
 	"author": "Ampeco",
@@ -28,8 +28,8 @@
 	"files": [
 		"dist"
 	],
-	"main": "ampeco-ui.cjs.js",
-	"module": "ampeco-ui.es.js",
+	"main": "./dist/ampeco-ui.cjs.js",
+	"module": "./dist/ampeco-ui.es.js",
 	"types": "./dist/types/index.d.ts",
 	"type": "module",
 	"scripts": {
@@ -103,7 +103,8 @@
 	"peerDependencies": {
 		"react": "^19.0.0",
 		"react-dom": "^19.0.0",
-		"react-router-dom": "^7.2.0"
+		"react-router-dom": "^7.2.0",
+		"apexcharts": "^5.3.6"
 	},
 	"optionalDependencies": {
 		"@rollup/rollup-linux-x64-gnu": "4.9.5",

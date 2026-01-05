@@ -45,6 +45,7 @@ const app = async (): Promise<UserConfigExport> => {
 						react: "React",
 						"react-dom": "ReactDOM",
 					},
+					banner: '"use client";',
 				},
 			},
 		},

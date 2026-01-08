@@ -22,7 +22,7 @@ const config: StorybookConfig = {
 	staticDirs: [
 		{
 			from: "../tests",
-			to: "/tests",
+			to: "tests",
 		},
 		"../src/assets/extensions",
 	],

@@ -7,6 +7,9 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - AMPECO UI - 0.2.x (compatible with React 19.x.x)
 - Package Name - ampeco-ui
 
+### 0.3.2
+- Fix coverage report 404 error on GitHub Pages by using relative paths for static assets
+
 ### 0.3.1
 - Reorganize the dependencies of the package.
 

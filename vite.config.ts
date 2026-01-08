@@ -38,16 +38,23 @@ const app = async (): Promise<UserConfigExport> => {
 				cssFileName: "style",
 			},
 			chunkSizeWarningLimit: 1024,
-			rollupOptions: {
-				external: ["react", "react-dom", "react-router-dom"],
-				output: {
-					globals: {
-						react: "React",
-						"react-dom": "ReactDOM",
-					},
-					banner: '"use client";',
+		rollupOptions: {
+			external: [
+				"react",
+				"react-dom",
+				"react-router-dom",
+				"@heroicons/react",
+				"apexcharts",
+				"react-imask",
+			],
+			output: {
+				globals: {
+					react: "React",
+					"react-dom": "ReactDOM",
 				},
+				banner: '"use client";',
 			},
+		},
 		},
 		test: {
 			globals: true,

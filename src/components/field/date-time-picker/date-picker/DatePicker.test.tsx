@@ -1,7 +1,6 @@
 import { render, fireEvent } from '@testing-library/react';
 import { DatePicker } from './DatePicker';
 import { test, assert, describe } from 'vitest';
-import { SimpleDate } from '../../../../types/internal/DateTime';
 
 describe('DatePicker', () => {
 	test('renders DatePicker component with default props', () => {
@@ -9,10 +8,10 @@ describe('DatePicker', () => {
 		const datePickerElement = container.querySelector('.datepicker');
 		assert(datePickerElement !== null, 'DatePicker component should be rendered');
 	});
-  
+
 	test('calls onChange callback when a valid date is entered', () => {
-		let selectedValue: SimpleDate | null = null;
-		const handleChange = (value: SimpleDate | null) => {
+		let selectedValue: Date | null = null;
+		const handleChange = (value: Date | null) => {
 			selectedValue = value;
 		};
 
@@ -27,14 +26,16 @@ describe('DatePicker', () => {
 		const dateOption = getByText('15');
 		fireEvent.click(dateOption);
 		const selectedDate = 15;
-    
+
 		assert(selectedValue !== null, 'onChange callback should be called with selected value');
-		assert(selectedValue !== null && (selectedValue as SimpleDate).date === selectedDate, 'Selected date should match expected value');
+		const date = selectedValue as Date;
+		assert(date instanceof Date, 'Selected value should be a Date object');
+		assert(date.getDate() === selectedDate, 'Selected date should match expected value');
 	});
-  
+
 	test('displays error message when date is out of range', () => {
 		const { getByRole, getByText } = render(
-			<DatePicker value={{ date: 31, month: 0, year: 2023 }} maxDate={{ date: 31, month: 11, year: 2022 }} />
+			<DatePicker value={new Date(2023, 0, 31)} maxDate={new Date(2022, 11, 31)} />
 		);
 
 		const input = getByRole('textbox');
@@ -43,10 +44,10 @@ describe('DatePicker', () => {
 		const errorMessage = getByText('Date is out of range');
 		assert(errorMessage !== null, 'Error message should be displayed for out of range date');
 	});
-  
+
 	test('disables date picker when disabled prop is true', () => {
-		let selectedValue: SimpleDate | null = null;
-		const handleChange = (value: SimpleDate | null) => {
+		let selectedValue: Date | null = null;
+		const handleChange = (value: Date | null) => {
 			selectedValue = value;
 		};
 
@@ -60,7 +61,7 @@ describe('DatePicker', () => {
 		const dateOption = container.querySelector('.ph-calendar-day');
 		assert(dateOption === null, 'No date options should be selectable when date picker is disabled');
 	});
-  
+
 	test('displays placeholder text when placeholder prop is provided', () => {
 		const placeholderText = 'Select a date';
 		const { getByRole } = render(
@@ -72,8 +73,8 @@ describe('DatePicker', () => {
 	});
 
 	test('selects time and updates hours and minutes when showTimePicker is true', () => {
-		let selectedValue: SimpleDate | null = null;
-		const handleChange = (value: SimpleDate | null) => {
+		let selectedValue: Date | null = null;
+		const handleChange = (value: Date | null) => {
 			selectedValue = value;
 		};
 
@@ -82,17 +83,19 @@ describe('DatePicker', () => {
 		);
 
 		const input = getByRole('textbox');
-	
+
 		fireEvent.focus(input);
 		fireEvent.input(input, { target: { value: '12.07.2023. 15:30' } });
-		
+
 		assert(selectedValue !== null, 'onChange callback should be called with selected value');
-		assert(selectedValue !== null && (selectedValue as SimpleDate).hours === 15 && (selectedValue as SimpleDate).minutes === 30, 'Selected hours and minutes should match expected values');
+		const date = selectedValue as Date;
+		assert(date instanceof Date, 'Selected value should be a Date object');
+		assert(date.getHours() === 15 && date.getMinutes() === 30, 'Selected hours and minutes should match expected values');
 	});
 
 	test('calls onChange with null when value is set to null externally', () => {
-		let selectedValue: SimpleDate | null = { date: 1, month: 0, year: 2023 };
-		const handleChange = (value: SimpleDate | null) => {
+		let selectedValue: Date | null = new Date(2023, 0, 1);
+		const handleChange = (value: Date | null) => {
 			selectedValue = value;
 		};
 
@@ -106,8 +109,8 @@ describe('DatePicker', () => {
 	});
 
 	test('calls onChange with null when clear button is clicked', () => {
-		let selectedValue: SimpleDate | null = { date: 10, month: 5, year: 2024 };
-		const handleChange = (value: SimpleDate | null) => {
+		let selectedValue: Date | null = new Date(2024, 5, 10);
+		const handleChange = (value: Date | null) => {
 			selectedValue = value;
 		};
 

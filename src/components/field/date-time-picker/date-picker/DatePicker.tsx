@@ -9,7 +9,8 @@ import {
 } from "react";
 import { useIMask } from "react-imask";
 import { useDefaultValueState } from "../../../../hooks/internal/useDefaultValueState";
-import { SimpleDate, SimpleTime } from "../../../../types/internal/DateTime";
+// SimpleDate is only used internally for Calendar component compatibility
+import { SimpleDate } from "../../../../types/internal/DateTime";
 import FieldBaseProps from "../../../../types/internal/FieldBaseProps";
 import { Dropdown } from "../../dropdown/Dropdown";
 import { FieldBase } from "../../field-base/FieldBase";
@@ -23,22 +24,18 @@ import { Shape } from "../../../../types/Shape";
 import { Affix } from "../../affix/Affix";
 import { XMarkIcon } from "@heroicons/react/24/solid";
 
-interface DatePickerProps<V extends SimpleDate | Date>
+interface DatePickerProps
 	extends Omit<FieldBaseProps, "readonly">,
 		DataAttributes {
 	/**
-	 * Datepicker value in `Date` or `SimpleDate` format
-	 *
-	 * ### NOTE: SimpleDate format uses a 0 indexed month value
+	 * Datepicker value as Date object
 	 */
-	value?: V | null;
+	value?: Date | null;
 	id?: string;
 	/**
 	 * Fires when a valid date is entered or the field is cleared
-	 *
-	 * ### NOTE: SimpleDate format uses a 0 indexed month value
 	 */
-	onChange?: (value: V | null) => void;
+	onChange?: (value: Date | null) => void;
 	/**
 	 * Date pattern
 	 *
@@ -60,13 +57,12 @@ interface DatePickerProps<V extends SimpleDate | Date>
 	errorMsg?: string;
 	label?: string;
 	required?: boolean;
-	maxDate?: SimpleDate | null;
-	minDate?: SimpleDate | null;
+	maxDate?: Date | null;
+	minDate?: Date | null;
 	showTimePicker?: boolean;
 }
 
-// TODO Remove support for SimpleDate
-export const DatePicker = <V extends SimpleDate | Date>({
+export const DatePicker = ({
 	value: valueProp,
 	id,
 	onChange,
@@ -85,30 +81,53 @@ export const DatePicker = <V extends SimpleDate | Date>({
 	showTimePicker,
 	shape = Shape.DEFAULT,
 	size,
-}: DatePickerProps<V>) => {
-	const [rawValue, setValue] = useDefaultValueState(null, valueProp, onChange);
-	const [clockValue, setClockValue] = useState<SimpleTime | null>(null);
+}: DatePickerProps) => {
+	const [rawValue, setValue] = useDefaultValueState<Date | null>(
+		null,
+		valueProp,
+		onChange
+	);
+	// Internal time state (only used for Clock component)
+	const [clockValue, setClockValue] = useState<{
+		hours: number;
+		minutes: number;
+	} | null>(null);
 	const [isOpen, setIsOpen] = useState(false);
 
 	const defaultPattern = showTimePicker ? "DD.MM.YYYY. HH:mm" : pattern;
 
-	const value: SimpleDate | null = useMemo(() => {
+	// Convert Date to SimpleDate for Calendar component
+	const calendarDate: SimpleDate | null = useMemo(() => {
 		if (!rawValue) {
 			return null;
 		}
-
-		if (rawValue instanceof Date) {
-			return {
-				date: rawValue.getDate(),
-				month: rawValue.getMonth(),
-				year: rawValue.getFullYear(),
-				hours: clockValue?.hours,
-				minutes: clockValue?.minutes,
-			};
-		}
-
-		return rawValue as SimpleDate;
+		return {
+			date: rawValue.getDate(),
+			month: rawValue.getMonth(),
+			year: rawValue.getFullYear(),
+			hours: clockValue?.hours,
+			minutes: clockValue?.minutes,
+		};
 	}, [rawValue, clockValue]);
+
+	// Convert Date to SimpleDate for maxDate/minDate
+	const calendarMaxDate: SimpleDate | null = useMemo(() => {
+		if (!maxDate) return null;
+		return {
+			date: maxDate.getDate(),
+			month: maxDate.getMonth(),
+			year: maxDate.getFullYear(),
+		};
+	}, [maxDate]);
+
+	const calendarMinDate: SimpleDate | null = useMemo(() => {
+		if (!minDate) return null;
+		return {
+			date: minDate.getDate(),
+			month: minDate.getMonth(),
+			year: minDate.getFullYear(),
+		};
+	}, [minDate]);
 
 	const maskOptions = useMemo(() => {
 		return {
@@ -117,18 +136,11 @@ export const DatePicker = <V extends SimpleDate | Date>({
 	}, [defaultPattern, showTimePicker]);
 
 	const defaultValue = useMemo(() => {
-		if (!value) {
+		if (!rawValue) {
 			return "";
 		}
-		const date = new Date(
-			value.year,
-			value.month,
-			value.date,
-			clockValue?.hours || 0,
-			clockValue?.minutes || 0
-		);
-		return getStringFromDate(date, defaultPattern);
-	}, [defaultPattern, value, clockValue]);
+		return getStringFromDate(rawValue, defaultPattern);
+	}, [defaultPattern, rawValue]);
 
 	const {
 		ref,
@@ -141,18 +153,8 @@ export const DatePicker = <V extends SimpleDate | Date>({
 			if (!date) {
 				return;
 			}
-			if (rawValue instanceof Date) {
-				setValue(date as V);
-			} else {
-				const simpleDate = {
-					date: date.getDate(),
-					month: date.getMonth(),
-					year: date.getFullYear(),
-					hours: date.getHours(),
-					minutes: date.getMinutes(),
-				};
-				setValue(simpleDate as any);
-			}
+			// Always set as Date object
+			setValue(date);
 		},
 		onAccept: (value) => {
 			if (value.length === 0) {
@@ -163,61 +165,37 @@ export const DatePicker = <V extends SimpleDate | Date>({
 
 	useEffect(() => {
 		// Update typedValue and clockValue when value changes
-		if (value) {
-			setClockValue({ hours: value.hours || 0, minutes: value.minutes || 0 });
-			const valueDate = new Date(
-				value.year,
-				value.month,
-				value.date,
-				value.hours || 0,
-				value.minutes || 0
-			).getTime();
-			const maskDate = typedValue ? new Date(typedValue).getTime() : null;
-			if (maskDate !== valueDate) {
-				setTypedValue(new Date(valueDate));
-			}
+		if (rawValue) {
+			const hours = rawValue.getHours();
+			const minutes = rawValue.getMinutes();
+			// Only update clockValue if it actually changed to prevent loops
+			setClockValue((prev) => {
+				if (prev?.hours === hours && prev?.minutes === minutes) {
+					return prev;
+				}
+				return { hours, minutes };
+			});
+			setTypedValue(rawValue);
 		} else {
 			setTypedValue(null);
 			setClockValue({ hours: 0, minutes: 0 });
 		}
 		//eslint-disable-next-line react-hooks/exhaustive-deps
-	}, [value]);
-
-	useEffect(() => {
-		// update date and time when clock value changes
-		if (clockValue && typedValue) {
-			const date = typedValue.getDate();
-			const month = typedValue.getMonth();
-			const year = typedValue.getFullYear();
-			setTypedValue(
-				new Date(
-					year,
-					month,
-					date,
-					showTimePicker ? clockValue.hours : 0,
-					showTimePicker ? clockValue.minutes : 0
-				)
-			);
-		}
-	}, [clockValue, showTimePicker]);
+	}, [rawValue]);
 
 	const isInRange = useMemo(() => {
 		if (!typedValue) {
 			return true;
 		}
-		const dateTime = new Date(typedValue).getTime();
+		const dateTime = typedValue.getTime();
 		if (maxDate) {
-			if (
-				dateTime > new Date(maxDate.year, maxDate.month, maxDate.date).getTime()
-			) {
+			if (dateTime > maxDate.getTime()) {
 				return false;
 			}
 		}
 
 		if (minDate) {
-			if (
-				dateTime < new Date(minDate.year, minDate.month, minDate.date).getTime()
-			) {
+			if (dateTime < minDate.getTime()) {
 				return false;
 			}
 		}
@@ -227,30 +205,30 @@ export const DatePicker = <V extends SimpleDate | Date>({
 
 	const handleInputBlur = useCallback(() => {
 		// If the input has incorrect value, onBlur set value to the current value
-		if (!typedValue && value) {
-			setTypedValue(new Date(value.year, value.month, value.date));
+		if (!typedValue && rawValue) {
+			setTypedValue(rawValue);
 		}
-	}, [setTypedValue, value, typedValue]);
+	}, [setTypedValue, rawValue, typedValue]);
 
 	const handleRequestOpenChange = useCallback((isOpen: boolean) => {
 		setIsOpen(isOpen);
 	}, []);
 
 	const handleDateChange = useCallback(
-		(date: any) => {
+		(date: SimpleDate) => {
 			setIsOpen(false);
-			setValue(date);
-			setTypedValue(
-				new Date(
-					date.year,
-					date.month,
-					date.date,
-					clockValue?.hours || 0,
-					clockValue?.minutes || 0
-				)
+			// Convert SimpleDate from Calendar to Date object
+			const dateObj = new Date(
+				date.year,
+				date.month,
+				date.date,
+				clockValue?.hours || 0,
+				clockValue?.minutes || 0
 			);
+			setValue(dateObj);
+			setTypedValue(dateObj);
 		},
-		[setTypedValue, clockValue]
+		[setTypedValue, clockValue, setValue]
 	);
 
 	const handleClickClear = useCallback(
@@ -262,10 +240,21 @@ export const DatePicker = <V extends SimpleDate | Date>({
 	);
 
 	const handleClockChange = useCallback(
-		(clockValue: SimpleTime) => {
+		(clockValue: { hours: number; minutes: number }) => {
 			setClockValue(clockValue);
+			// Update the date with new time immediately
+			if (rawValue) {
+				const newDate = new Date(
+					rawValue.getFullYear(),
+					rawValue.getMonth(),
+					rawValue.getDate(),
+					showTimePicker ? clockValue.hours : 0,
+					showTimePicker ? clockValue.minutes : 0
+				);
+				setValue(newDate);
+			}
 		},
-		[setClockValue]
+		[setClockValue, rawValue, showTimePicker, setValue]
 	);
 
 	const finalError =
@@ -327,7 +316,7 @@ export const DatePicker = <V extends SimpleDate | Date>({
 							className="border-none bg-transparent outline-none w-full"
 						/>
 
-						{clearable && value && (
+						{clearable && calendarDate && (
 							<Affix className="datepicker-clear" onClick={handleClickClear}>
 								<XMarkIcon className="w-4 h-4" />
 							</Affix>
@@ -335,13 +324,13 @@ export const DatePicker = <V extends SimpleDate | Date>({
 					</FieldBase>
 				}
 			>
-				<div className="datepicker-dropdown absolute">
+				<div className="datepicker-dropdown absolute z-50">
 					<div className={dropdownInnerClasses}>
 						<Calendar
-							date={value}
+							date={calendarDate}
 							onChange={handleDateChange}
-							maxDate={maxDate}
-							minDate={minDate}
+							maxDate={calendarMaxDate}
+							minDate={calendarMinDate}
 						/>
 						{showTimePicker && (
 							<Clock value={clockValue} onChange={handleClockChange} />

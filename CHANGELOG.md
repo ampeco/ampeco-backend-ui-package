@@ -15,7 +15,9 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - Fix Card component tests
 - Remove unused formField prop and wrapper classes from Input and Textarea
 - Update Loader component styling
-- Added ErrorMessage to RadioGroup and Checkbox components
+- Add ErrorMessage to RadioGroup component
+- DatePicker: Remove SimpleDate support, now only uses Date objects
+- Card: Remove isolate class from styling
 
 ### 0.3.2
 

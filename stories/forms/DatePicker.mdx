@@ -1,15 +1,56 @@
-import {Controls, Canvas, Meta, Story} from '@storybook/blocks';
-import {DatePicker} from '../../src';
-import * as DatePickerStories from './DatePicker.stories';
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import { DatePicker } from "../../src";
+import * as DatePickerStories from "./DatePicker.stories";
 
 <Meta of={DatePickerStories} />
 
-export const Template = (args) => <DatePicker {...args} />
+export const Template = (args) => <DatePicker {...args} />;
 
 # Date Picker
 
+The DatePicker component accepts and returns `Date` objects, making it compatible with form validation libraries like zod.
+
 <Canvas>
-  <Story of={DatePickerStories.DatePickerStory} />
+	<Story of={DatePickerStories.DatePickerStory} />
 </Canvas>
+
+## Usage
+
+The DatePicker component uses `Date` objects for all date values:
+
+```tsx
+import { DatePicker } from "@ampeco/ampeco-ui";
+import { useState } from "react";
+
+function MyForm() {
+	const [date, setDate] = useState<Date | null>(null);
+
+	return (
+		<DatePicker
+			value={date}
+			onChange={(newDate) => setDate(newDate)}
+			label="Select a date"
+			minDate={new Date(2023, 0, 1)}
+			maxDate={new Date(2029, 11, 31)}
+		/>
+	);
+}
+```
+
+## Props
+
+- `value?: Date | null` - The current date value
+- `onChange?: (value: Date | null) => void` - Callback when date changes
+- `minDate?: Date | null` - Minimum selectable date
+- `maxDate?: Date | null` - Maximum selectable date
+- `showTimePicker?: boolean` - Show time picker (default: false)
+- `clearable?: boolean` - Show clear button (default: false)
+- `pattern?: string` - Date format pattern (default: "DD.MM.YYYY")
+- `label?: string` - Label text
+- `required?: boolean` - Mark as required
+- `error?: boolean` - Show error state
+- `errorMsg?: string` - Error message
+- `disabled?: boolean` - Disable the picker
+- `placeholder?: string` - Placeholder text
 
 <Controls />

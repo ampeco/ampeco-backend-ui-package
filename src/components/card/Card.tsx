@@ -61,7 +61,7 @@ export const Card: FC<CardProps> = ({
 	);
 
 	const classes = classNames(
-		"flex flex-col gap-4 relative bg-white dark:bg-gray-800 shadow isolate px-6 py-4",
+		"flex flex-col gap-4 relative bg-white dark:bg-gray-800 shadow px-6 py-4",
 		shape === Shape.DEFAULT && "rounded-lg",
 		shape === Shape.ROUNDED && "rounded-[24px]",
 		shape === Shape.SQUARE && "rounded-none",

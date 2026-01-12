@@ -6,6 +6,7 @@ import {
 	useId,
 	useState,
 } from "react";
+import { ErrorMessage } from "../error-message/ErrorMessage";
 
 interface RadioContextType {
 	name?: string;
@@ -30,6 +31,8 @@ interface RadioGroupProps {
 	name?: string;
 	children?: ReactNode;
 	className?: string;
+	error?: boolean;
+	errorMsg?: string;
 }
 
 export const RadioGroup = ({
@@ -40,6 +43,8 @@ export const RadioGroup = ({
 	name,
 	children,
 	className,
+	error,
+	errorMsg,
 }: RadioGroupProps) => {
 	const uniqueName = useId();
 	const finalName = name ?? uniqueName;
@@ -75,7 +80,10 @@ export const RadioGroup = ({
 				onChangeEvent: handleChangeEvent,
 			}}
 		>
-			<div className={className}>{children}</div>
+			<div className={className}>
+				{children}
+				{errorMsg && error && <ErrorMessage>{errorMsg}</ErrorMessage>}
+			</div>
 		</RadioContext.Provider>
 	);
 };

@@ -15,6 +15,7 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - Fix Card component tests
 - Remove unused formField prop and wrapper classes from Input and Textarea
 - Update Loader component styling
+- Added ErrorMessage to RadioGroup and Checkbox components
 
 ### 0.3.2
 

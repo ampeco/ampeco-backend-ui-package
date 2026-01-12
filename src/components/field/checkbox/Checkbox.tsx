@@ -11,6 +11,7 @@ import classNames from "classnames";
 import DataAttributes from "../../../types/DataAttributes";
 import { Shape } from "../../../types/Shape";
 import { CheckIcon, MinusIcon } from "@heroicons/react/24/solid";
+import { ErrorMessage } from "../error-message/ErrorMessage";
 
 interface CheckboxProps
 	extends Omit<
@@ -120,9 +121,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 					</div>
 					{children}
 				</label>
-				{errorMsg && error && (
-					<p className="text-red-500 text-sm">{errorMsg}</p>
-				)}
+				{errorMsg && error && <ErrorMessage>{errorMsg}</ErrorMessage>}
 			</div>
 		);
 	}

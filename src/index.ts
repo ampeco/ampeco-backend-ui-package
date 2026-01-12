@@ -1,9 +1,11 @@
 import "./index.css";
+import "./components/loader/loader.css";
 
 export * from "./components/button/button/Button";
 export * from "./components/button/fab-button/FabButton";
 
 export * from "./components/field/input/Input";
+export * from "./components/field/textarea/Textarea";
 export * from "./components/field/affix/Affix";
 
 export * from "./components/field/checkbox/Checkbox";

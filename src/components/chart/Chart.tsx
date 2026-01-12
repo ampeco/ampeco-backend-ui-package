@@ -1,5 +1,4 @@
-import { FC, useEffect, useRef } from "react";
-import ApexCharts from "apexcharts";
+import { FC, useEffect, useRef, useState } from "react";
 import type { ApexOptions } from "apexcharts";
 import DataAttributes from "../../types/DataAttributes";
 
@@ -23,28 +22,41 @@ export const Chart: FC<ChartProps> = ({
 	...rest
 }) => {
 	const chartRef = useRef<HTMLDivElement>(null);
-	const chartInstance = useRef<ApexCharts | null>(null);
+	// eslint-disable-next-line @typescript-eslint/no-explicit-any
+	const chartInstance = useRef<any>(null);
+	const [isClient, setIsClient] = useState(false);
+
+	// Only run on client side to avoid SSR issues
+	useEffect(() => {
+		setIsClient(true);
+	}, []);
 
 	useEffect(() => {
-		if (!chartRef.current) return;
+		// Only initialize chart on client side
+		if (!isClient || !chartRef.current || typeof window === "undefined") return;
 
-		const chartOptions: ApexOptions = {
-			...(options || {}),
-			chart: {
-				...(options?.chart || {}),
-				type,
-				height,
-				width,
-			},
-			series: series || options?.series || [],
-		};
+		// Dynamically import ApexCharts only on client side
+		import("apexcharts").then((ApexChartsModule) => {
+			const ApexCharts = ApexChartsModule.default;
 
-		if (chartInstance.current) {
-			chartInstance.current.updateOptions(chartOptions);
-		} else {
-			chartInstance.current = new ApexCharts(chartRef.current, chartOptions);
-			chartInstance.current.render();
-		}
+			const chartOptions: ApexOptions = {
+				...(options || {}),
+				chart: {
+					...(options?.chart || {}),
+					type,
+					height,
+					width,
+				},
+				series: series || options?.series || [],
+			};
+
+			if (chartInstance.current) {
+				chartInstance.current.updateOptions(chartOptions);
+			} else {
+				chartInstance.current = new ApexCharts(chartRef.current, chartOptions);
+				chartInstance.current.render();
+			}
+		});
 
 		return () => {
 			if (chartInstance.current) {
@@ -52,7 +64,7 @@ export const Chart: FC<ChartProps> = ({
 				chartInstance.current = null;
 			}
 		};
-	}, [options, series, height, width, type]);
+	}, [isClient, options, series, height, width, type]);
 
 	return (
 		<div ref={chartRef} {...dataAttributes} className={className} {...rest} />

@@ -1,5 +1,12 @@
 import classNames from "classnames";
-import { MouseEvent, useCallback, useEffect, useMemo, useState } from "react";
+import {
+	MouseEvent,
+	useCallback,
+	useEffect,
+	useId,
+	useMemo,
+	useState,
+} from "react";
 import { useIMask } from "react-imask";
 import { useDefaultValueState } from "../../../../hooks/internal/useDefaultValueState";
 import { SimpleDate, SimpleTime } from "../../../../types/internal/DateTime";
@@ -52,6 +59,7 @@ interface DatePickerProps<V extends SimpleDate | Date>
 	clearable?: boolean;
 	errorMsg?: string;
 	label?: string;
+	required?: boolean;
 	maxDate?: SimpleDate | null;
 	minDate?: SimpleDate | null;
 	showTimePicker?: boolean;
@@ -70,6 +78,7 @@ export const DatePicker = <V extends SimpleDate | Date>({
 	clearable,
 	errorMsg,
 	label,
+	required,
 	maxDate,
 	minDate,
 	dataAttributes,
@@ -264,9 +273,13 @@ export const DatePicker = <V extends SimpleDate | Date>({
 	const finalErrorMessage =
 		errorMsg ?? (!isInRange ? "Date is out of range" : undefined);
 
-	const classes = classNames("form-field datepicker", className, {
-		open: isOpen,
-	});
+	const classes = classNames(
+		"form-field datepicker flex flex-col gap-2",
+		className,
+		{
+			open: isOpen,
+		}
+	);
 
 	const dropdownInnerClasses = classNames(
 		"bg-white dark:bg-gray-800 shadow isolate px-6 py-4",
@@ -278,9 +291,14 @@ export const DatePicker = <V extends SimpleDate | Date>({
 		}
 	);
 
+	const uniqueId = useId();
 	return (
 		<div className={classes} {...dataAttributes}>
-			{label && <Label id={id}>{label}</Label>}
+			{label && (
+				<Label id={uniqueId} required={required}>
+					{label}
+				</Label>
+			)}
 			<Dropdown
 				isOpen={isOpen && !disabled}
 				onRequestOpenChange={handleRequestOpenChange}
@@ -295,13 +313,14 @@ export const DatePicker = <V extends SimpleDate | Date>({
 						size={size}
 					>
 						<input
-							id={id}
+							id={uniqueId}
 							ref={ref as React.Ref<HTMLInputElement>}
 							placeholder={
 								placeholder ||
 								(showTimePicker ? "Enter date and time" : "Enter date")
 							}
 							disabled={disabled}
+							required={required}
 							onBlur={handleInputBlur}
 							defaultValue={defaultValue}
 							maxLength={17}

@@ -61,7 +61,7 @@ describe("Input", () => {
 		const customClassName = "custom-input";
 		const { container } = render(<Input className={customClassName} />);
 		const inputWrapper = container.querySelector(
-			'[class*="flex items-center gap-2"]'
+			'[class*="flex flex-col gap-2"]'
 		);
 
 		expect(inputWrapper).toHaveClass("custom-input");

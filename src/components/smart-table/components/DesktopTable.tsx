@@ -87,11 +87,11 @@ const DesktopTable = <T extends BaseTType>(props: DesktopProps<T>) => {
 		actionsConfig?.position === "right";
 
 	const renderBulkSelect = () => (
-		<th key="select-header">
+		<th key="select-header" className="px-2">
 			<Checkbox
 				name="select all"
-				value={selectedRows.length === tableData.length}
-				onChange={handleSelectAllRows}
+				checked={selectedRows.length === tableData.length}
+				onChangeEvent={(e) => handleSelectAllRows(e.target.checked)}
 			/>
 		</th>
 	);
@@ -157,7 +157,7 @@ const DesktopTable = <T extends BaseTType>(props: DesktopProps<T>) => {
 	};
 
 	const renderActionsColumn = () => (
-		<th style={{ width: `${100 / columns.length}%` }}>
+		<th className="px-2" style={{ width: `${100 / columns.length}%` }}>
 			{actionsConfig?.columnLabel}
 		</th>
 	);

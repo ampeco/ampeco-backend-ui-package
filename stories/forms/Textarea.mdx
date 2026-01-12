@@ -1,0 +1,14 @@
+import { Textarea as TextareaComponent } from "../../src";
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import * as TextareaStories from "./Textarea.stories";
+
+<Meta of={TextareaStories} />
+
+export const Template = (args) => <TextareaComponent {...args} />;
+
+<Canvas>
+	<Story of={TextareaStories.TextareaStory} />
+</Canvas>
+
+<Controls />
+

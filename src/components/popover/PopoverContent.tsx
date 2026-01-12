@@ -54,7 +54,7 @@ export const PopoverContentInternal = ({
 	}, []);
 
 	const bodyClasses = classNames(
-		"relative overflow-hidden bg-white dark:bg-gray-800 shadow isolate px-6 py-4 md:col-span-4",
+		"relative overflow-hidden bg-white dark:bg-gray-800 shadow isolate px-6 py-4",
 		shape === Shape.DEFAULT && "rounded-lg",
 		shape === Shape.ROUNDED && "rounded-[24px]",
 		shape === Shape.SQUARE && "rounded-none"

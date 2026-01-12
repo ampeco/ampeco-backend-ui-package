@@ -5,6 +5,7 @@ import {
 	MouseEvent,
 	useCallback,
 	useEffect,
+	useId,
 	useMemo,
 	useRef,
 	useState,
@@ -39,6 +40,7 @@ interface SelectProps<T extends string | number, M extends boolean>
 	selectedLabel?: string | ((count: number) => string);
 	errorMsg?: string;
 	label?: string;
+	required?: boolean;
 	className?: classNames.Argument;
 	onNewSelectOptionEntered?: (searchTerm: string) => void; // <-- New prop for custom handling
 }
@@ -56,6 +58,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 	error,
 	errorMsg,
 	label,
+	required,
 	placeholder = "Select option(s)",
 	selectedLabel = "Selected option(s)",
 	className,
@@ -318,7 +321,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 	}, [isOpen, highlightedOptionIndex, searchable]);
 
 	const classes = classNames(
-		"relative w-max",
+		"relative w-max flex flex-col gap-2",
 		{
 			readonly: readonly,
 		},
@@ -330,16 +333,21 @@ export const Select = <T extends string | number, Multi extends boolean>({
 		"scroll-wrap overflow-x-hidden overflow-hidden overflow-y-auto select-none px-2 py-2 bg-white dark:bg-gray-900 shadow-lg border border-gray-200 dark:border-gray-700 rounded-lg max-h-[300px]"
 	);
 
+	const uniqueId = useId();
 	return (
 		<div className={classes} {...dataAttributes}>
-			{label && <Label>{label}</Label>}
+			{label && (
+				<Label id={uniqueId} required={required}>
+					{label}
+				</Label>
+			)}
 			<Dropdown
 				isOpen={isOpen}
 				onRequestOpenChange={handleRequestOpenChange}
 				onKeyDown={handleKeyDown}
 				handle={
 					<FieldBase
-						className="flex items-center gap-2 bg-transparent"
+						className="flex-1 flex items-center gap-2 bg-transparent"
 						disabled={disabled}
 						readonly={readonly}
 						error={error}
@@ -353,7 +361,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 								className="-mb-1"
 								value={selectAllCheckboxValue}
 								tabIndex={-1}
-								onChange={handleChangeSelectAll}
+								onChangeEvent={(e) => handleChangeSelectAll(e.target.checked)}
 								onMouseDown={(event) => {
 									// Prevent checkbox from gaining focus
 									event.preventDefault();
@@ -371,16 +379,14 @@ export const Select = <T extends string | number, Multi extends boolean>({
 							</span>
 						) : (
 							<input
+								id={uniqueId}
 								ref={inputRef}
 								value={displayValue}
 								readOnly
+								required={required}
 								placeholder={placeholder}
 								tabIndex={isOpen ? -1 : 0}
 								className="border-none bg-transparent outline-none w-full"
-								onFocus={(event) => {
-									event.target.setSelectionRange(null, null);
-									event.stopPropagation();
-								}}
 							/>
 						)}
 

@@ -1,4 +1,11 @@
-import {ChangeEvent, createContext, ReactNode, useCallback, useId, useState} from 'react';
+import {
+	ChangeEvent,
+	createContext,
+	ReactNode,
+	useCallback,
+	useId,
+	useState,
+} from "react";
 
 interface RadioContextType {
 	name?: string;
@@ -22,35 +29,53 @@ interface RadioGroupProps {
 	onChangeEvent?: (e: ChangeEvent<HTMLInputElement>) => void;
 	name?: string;
 	children?: ReactNode;
+	className?: string;
 }
 
-export const RadioGroup = ({value, role = 'radiogroup', onChange, onChangeEvent, name, children}: RadioGroupProps) => {
+export const RadioGroup = ({
+	value,
+	role = "radiogroup",
+	onChange,
+	onChangeEvent,
+	name,
+	children,
+	className,
+}: RadioGroupProps) => {
 	const uniqueName = useId();
 	const finalName = name ?? uniqueName;
 	const [currentValue, setCurrentValue] = useState(value);
 
-	const handleChange = useCallback((value: string) => {
-		if (onChange) {
-			onChange(value);
-		}
-		setCurrentValue(value);
-	}, [onChange]);
+	const handleChange = useCallback(
+		(value: string) => {
+			if (onChange) {
+				onChange(value);
+			}
+			setCurrentValue(value);
+		},
+		[onChange]
+	);
 
-	const handleChangeEvent = useCallback((e: ChangeEvent<HTMLInputElement>) => {
-		if (onChangeEvent) {
-			onChangeEvent(e);
-		}
-	}, [onChangeEvent]);
+	const handleChangeEvent = useCallback(
+		(e: ChangeEvent<HTMLInputElement>) => {
+			if (onChangeEvent) {
+				onChangeEvent(e);
+			}
+		},
+		[onChangeEvent]
+	);
 
-	return <RadioContext.Provider value={{
-		value: currentValue,
-		role: role,
-		ariaLabelledby: finalName || '',
-		name: finalName,
-		onChange: handleChange,
-		onChangeEvent: handleChangeEvent
-	}}>
-		{children}
-	</RadioContext.Provider>;
+	return (
+		<RadioContext.Provider
+			value={{
+				value: currentValue,
+				role: role,
+				ariaLabelledby: finalName || "",
+				name: finalName,
+				onChange: handleChange,
+				onChangeEvent: handleChangeEvent,
+			}}
+		>
+			<div className={className}>{children}</div>
+		</RadioContext.Provider>
+	);
 };
-

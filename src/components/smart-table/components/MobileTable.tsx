@@ -36,7 +36,7 @@ const MobileTable = <T extends BaseTType>(props: DesktopProps<T>) => {
 				<Checkbox
 					className="select-row-mobile"
 					value={isRowSelected}
-					onChange={handleSelectSingleRow(row)}
+					onChangeEvent={(e) => handleSelectSingleRow(row)(e.target.checked)}
 					name="select all"
 				/>
 			)}

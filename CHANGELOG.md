@@ -7,10 +7,21 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - AMPECO UI - 0.2.x (compatible with React 19.x.x)
 - Package Name - ampeco-ui
 
+### 0.4.0
+
+- Add Textarea component with tests and stories
+- Add required prop to all form components (Checkbox, Radio, Toggle, DatePicker, TimePicker, Select)
+- Fix Chart component tests
+- Fix Card component tests
+- Remove unused formField prop and wrapper classes from Input and Textarea
+- Update Loader component styling
+
 ### 0.3.2
+
 - Fix coverage report 404 error on GitHub Pages by using relative paths for static assets
 
 ### 0.3.1
+
 - Reorganize the dependencies of the package.
 
 ### 0.3.0

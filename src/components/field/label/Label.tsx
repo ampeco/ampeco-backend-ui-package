@@ -1,6 +1,6 @@
-import { ReactNode } from 'react';
-import DataAttributes from '../../../types/DataAttributes';
-import classNames from 'classnames';
+import { ReactNode } from "react";
+import DataAttributes from "../../../types/DataAttributes";
+import classNames from "classnames";
 
 interface LabelProps extends DataAttributes {
 	id?: string;
@@ -8,14 +8,19 @@ interface LabelProps extends DataAttributes {
 	children?: ReactNode;
 }
 
-export const Label = ({ id, required, children, dataAttributes }: LabelProps) => {
+export const Label = ({
+	id,
+	required,
+	children,
+	dataAttributes,
+}: LabelProps) => {
 	const labelClasses = classNames("form-label", {
-		"form-label-required": required
+		"form-label-required": required,
 	});
 
-	return <label className={labelClasses} htmlFor={id} {...dataAttributes}>
-		<span className="form-label-text">
-			{children}
-		</span>
-	</label>;
+	return (
+		<label className={labelClasses} htmlFor={id} {...dataAttributes}>
+			<span className="form-label-text">{children}</span>
+		</label>
+	);
 };

@@ -321,7 +321,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 	}, [isOpen, highlightedOptionIndex, searchable]);
 
 	const classes = classNames(
-		"relative w-max flex flex-col gap-2",
+		"w-max flex flex-col gap-2",
 		{
 			readonly: readonly,
 		},
@@ -345,6 +345,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 				isOpen={isOpen}
 				onRequestOpenChange={handleRequestOpenChange}
 				onKeyDown={handleKeyDown}
+				className="relative"
 				handle={
 					<FieldBase
 						className="flex-1 flex items-center gap-2 bg-transparent"

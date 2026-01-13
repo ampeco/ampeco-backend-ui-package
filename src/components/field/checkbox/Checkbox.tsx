@@ -11,6 +11,7 @@ import classNames from "classnames";
 import DataAttributes from "../../../types/DataAttributes";
 import { Shape } from "../../../types/Shape";
 import { CheckIcon, MinusIcon } from "@heroicons/react/24/solid";
+import { ErrorMessage } from "../error-message/ErrorMessage";
 
 interface CheckboxProps
 	extends Omit<
@@ -20,18 +21,12 @@ interface CheckboxProps
 		DataAttributes {
 	value?: boolean | "indeterminate";
 	defaultValue?: boolean | "indeterminate";
-	/**
-	 * @deprecated Use `onChangeEvent` to receive the full `ChangeEvent<HTMLInputElement>`.
-	 * The legacy `onChange` only returns the boolean value for backward compatibility
-	 * and will be removed in a future major release. Switching to `onChangeEvent`
-	 * enables unified handlers that can process multiple inputs.
-	 */
-	onChange?: (value: boolean) => void;
 	onChangeEvent?: (e: ChangeEvent<HTMLInputElement>) => void;
 	name?: string;
 	id?: string;
 	className?: classNames.Value;
 	disabled?: boolean;
+	required?: boolean;
 	children?: ReactNode;
 	error?: boolean;
 	errorMsg?: string;
@@ -43,12 +38,12 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 		{
 			value,
 			defaultValue,
-			onChange,
 			onChangeEvent,
 			name,
 			id,
 			className,
 			disabled,
+			required,
 			error,
 			errorMsg,
 			children,
@@ -64,21 +59,17 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 		const uniqueId = useId();
 		const [withinFocus, setWithinFocus] = useState(false);
 		const finalValue = value ?? innerValue;
-		const checkboxId = id ?? uniqueId;
-
 		const handleChange = useCallback(
 			(event: ChangeEvent<HTMLInputElement>) => {
 				setInnerValue(event.target.checked);
-				if (!disabled) {
-					if (onChange) onChange(event.target.checked);
-					if (onChangeEvent) onChangeEvent(event);
+				if (!disabled && onChangeEvent) {
+					onChangeEvent(event);
 				}
 			},
-			[onChange, onChangeEvent, disabled]
+			[onChangeEvent, disabled]
 		);
 
 		const classes = classNames("flex items-center gap-2", className, {
-			// checked: finalValue,
 			"opacity-50": disabled,
 			"cursor-pointer": !disabled,
 		});
@@ -102,7 +93,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 				onFocus={() => setWithinFocus(true)}
 				onBlur={() => setWithinFocus(false)}
 			>
-				<div className={classes}>
+				<label className={classes}>
 					<div className={checkMarkClasses}>
 						{finalValue === true && (
 							<CheckIcon className="w-3 h-3 text-white" />
@@ -112,36 +103,25 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(
 						)}
 						<input
 							role="checkbox"
-							style={{ zIndex: 1 }}
 							className="-z-1 absolute opacity-0"
-							id={checkboxId}
+							id={uniqueId}
 							name={name}
 							ref={ref}
 							type="checkbox"
-							onChange={handleChange}
 							checked={finalValue == "indeterminate" ? false : finalValue}
 							aria-checked={
 								finalValue == "indeterminate" ? "mixed" : finalValue
 							}
 							disabled={disabled}
-							data-testid={checkboxId}
+							required={required}
+							data-testid={uniqueId}
 							{...props}
+							onChange={handleChange}
 						/>
 					</div>
-					{children && (
-						<label
-							className={classNames({
-								"cursor-pointer": !disabled,
-							})}
-							htmlFor={checkboxId}
-						>
-							{children}
-						</label>
-					)}
-				</div>
-				{errorMsg && error && (
-					<p className="text-red-500 text-sm">{errorMsg}</p>
-				)}
+					{children}
+				</label>
+				{errorMsg && error && <ErrorMessage>{errorMsg}</ErrorMessage>}
 			</div>
 		);
 	}

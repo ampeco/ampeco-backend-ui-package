@@ -57,6 +57,7 @@ export default {
 		clearable: false,
 		disabled: false,
 		readonly: false,
+		required: false,
 		error: false,
 		errorMsg: "",
 		label: "",
@@ -85,4 +86,23 @@ export const SelectStory = {
 	render: Template.bind({}),
 	name: "Select",
 	height: "400px",
+};
+
+export const Required = {
+	render: Template.bind({}),
+	name: "Required",
+	args: {
+		label: "Required Select",
+		required: true,
+	},
+};
+
+export const WithLabelAndRequired = {
+	render: Template.bind({}),
+	name: "With Label and Required",
+	args: {
+		label: "Select an option",
+		required: true,
+		placeholder: "Please select an option",
+	},
 };

@@ -228,19 +228,21 @@ const SmartTableRow = <T extends BaseTType>({
 	return (
 		<tr key={`row-${rowIndex}`} className={classNames(className)}>
 			{canSelect && (
-				<td className="editable">
+				<td className="px-2 py-2">
 					{!newRow && (
 						<Checkbox
 							dataAttributes={{ "data-testid": `checkbox-${rowIndex}` }}
 							value={isRowSelected}
-							onChange={handleSelectSingleRow(row)}
+							onChangeEvent={(e) =>
+								handleSelectSingleRow(row)(e.target.checked)
+							}
 						/>
 					)}
 				</td>
 			)}
 
 			{(canAdd || canEdit) && withLeftActionColumn && (
-				<td className="editable">
+				<td className="px-2 py-2">
 					{isInEditMode && renderActionsCell(rowIndex)}
 				</td>
 			)}
@@ -248,7 +250,7 @@ const SmartTableRow = <T extends BaseTType>({
 			{renderTableData(row, rowIndex)}
 
 			{(canAdd || canEdit) && withRightActionColumn && (
-				<td className="editable">
+				<td className="px-2 py-2">
 					{isInEditMode && renderActionsCell(rowIndex)}
 				</td>
 			)}

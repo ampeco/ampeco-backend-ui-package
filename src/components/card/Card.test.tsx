@@ -54,20 +54,21 @@ describe("Card", () => {
 
 		it("should render for all elements which support it and are visible", () => {
 			const { container } = render(<Card />);
-			// Find body div (it has flex items-center classes)
+			// Find body div (it has flex-1 class and border when showHeader is true)
 			const bodyElement = Array.from(container.querySelectorAll("div")).find(
-				(div) => div.className.includes("flex items-center space-x-4")
+				(div) =>
+					div.className.includes("flex-1") &&
+					div.className.includes("border-t border-gray-200")
 			);
 			checkIfElementContainsBorderClass(bodyElement, true);
 
-			// Find footer div
-			const footerElement =
-				Array.from(container.querySelectorAll("div")).find(
-					(div) => div.textContent === "" && div.className.includes("border-t")
-				) ||
-				Array.from(container.querySelectorAll("div")).find((div) =>
-					div.className.includes("border-t border-gray-200")
-				);
+			// Find footer div (it has border-t when showDivider && (showBody || showHeader) but not flex-1)
+			const footerElement = Array.from(container.querySelectorAll("div")).find(
+				(div) =>
+					div.className.includes("border-t border-gray-200") &&
+					!div.className.includes("flex-1") &&
+					!div.className.includes("flex items-center")
+			);
 			checkIfElementContainsBorderClass(footerElement, true);
 		});
 
@@ -76,7 +77,9 @@ describe("Card", () => {
 
 			// Body should not have border when header is hidden
 			const bodyElement = Array.from(container.querySelectorAll("div")).find(
-				(div) => div.className.includes("flex items-center space-x-4")
+				(div) =>
+					div.className.includes("flex-1") &&
+					!div.className.includes("flex items-center")
 			);
 			if (bodyElement) {
 				const hasBorderClass = bodyElement.className.includes(
@@ -88,7 +91,12 @@ describe("Card", () => {
 			// Footer should have border (showBody is true by default, so footer gets border)
 			const footerWithBorder = Array.from(
 				container.querySelectorAll("div")
-			).find((div) => div.className.includes("border-t border-gray-200"));
+			).find(
+				(div) =>
+					div.className.includes("border-t border-gray-200") &&
+					!div.className.includes("flex-1") &&
+					!div.className.includes("flex items-center")
+			);
 			expect(footerWithBorder).toBeInTheDocument();
 
 			rerender(<Card showBody={false} />);
@@ -96,7 +104,12 @@ describe("Card", () => {
 			// Footer should still have border when body is hidden but header is visible
 			const footerWithBorder2 = Array.from(
 				container.querySelectorAll("div")
-			).find((div) => div.className.includes("border-t border-gray-200"));
+			).find(
+				(div) =>
+					div.className.includes("border-t border-gray-200") &&
+					!div.className.includes("flex-1") &&
+					!div.className.includes("flex items-center")
+			);
 			expect(footerWithBorder2).toBeInTheDocument();
 
 			rerender(<Card showHeader={false} showBody={false} />);

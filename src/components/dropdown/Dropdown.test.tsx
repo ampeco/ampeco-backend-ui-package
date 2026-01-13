@@ -155,7 +155,7 @@ describe("Dropdown", () => {
 				position="left"
 				toggleElement={<div>Action Menu</div>}
 				options={[]}
-				customClasses="custom-class"
+				className="custom-class"
 			/>
 		);
 		expect(container.querySelector(".custom-class")).toBeInTheDocument();

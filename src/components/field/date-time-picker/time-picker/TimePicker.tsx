@@ -1,5 +1,5 @@
 import classNames from "classnames";
-import { LegacyRef, useCallback, useEffect, useState } from "react";
+import { LegacyRef, useCallback, useEffect, useId, useState } from "react";
 import FieldBaseProps from "../../../../types/internal/FieldBaseProps";
 import { Dropdown } from "../../dropdown/Dropdown";
 import { FieldBase } from "../../field-base/FieldBase";
@@ -68,6 +68,7 @@ export interface TimePickerProps
 	className?: classNames.Value;
 	errorMsg?: string;
 	label?: string;
+	required?: boolean;
 	minTime?: SimpleTime | null;
 	maxTime?: SimpleTime | null;
 }
@@ -82,6 +83,7 @@ export const TimePicker = ({
 	className,
 	errorMsg,
 	label,
+	required,
 	minTime,
 	maxTime,
 	dataAttributes,
@@ -169,7 +171,7 @@ export const TimePicker = ({
 		setIsOpen(!isOpen);
 	}, [isOpen]);
 
-	const classes = classNames(className, {
+	const classes = classNames("flex flex-col gap-2", className, {
 		open: isOpen,
 	});
 
@@ -182,12 +184,17 @@ export const TimePicker = ({
 		}
 	);
 
+	const uniqueId = useId();
 	const finalError = !!timeRangeErrorMsg || error;
 	const finalErrorMessage = timeRangeErrorMsg ?? errorMsg;
 
 	return (
 		<div className={classes} {...dataAttributes}>
-			{label && <Label id={id}>{label}</Label>}
+			{label && (
+				<Label id={uniqueId} required={required}>
+					{label}
+				</Label>
+			)}
 			<Dropdown
 				isOpen={isOpen && !disabled}
 				onRequestOpenChange={handleRequestOpenChange}
@@ -202,9 +209,10 @@ export const TimePicker = ({
 						size={size}
 					>
 						<input
-							id={id}
+							id={uniqueId}
 							ref={ref as React.Ref<HTMLInputElement>}
 							disabled={disabled}
+							required={required}
 							placeholder={placeholder}
 							onBlur={handleInputBlur}
 							className="border-none bg-transparent outline-none w-full"

@@ -40,7 +40,7 @@ export const Card: FC<CardProps> = ({
 
 	const renderBody = () => (
 		<div
-			className={classNames("flex items-center space-x-4", {
+			className={classNames("flex-1", {
 				"border-t border-gray-200 dark:border-gray-700":
 					showDivider && showHeader,
 			})}
@@ -61,7 +61,7 @@ export const Card: FC<CardProps> = ({
 	);
 
 	const classes = classNames(
-		"relative overflow-hidden bg-white dark:bg-gray-800 shadow isolate px-6 py-4 md:col-span-4",
+		"flex flex-col gap-4 relative bg-white dark:bg-gray-800 shadow px-6 py-4",
 		shape === Shape.DEFAULT && "rounded-lg",
 		shape === Shape.ROUNDED && "rounded-[24px]",
 		shape === Shape.SQUARE && "rounded-none",
@@ -73,11 +73,9 @@ export const Card: FC<CardProps> = ({
 
 	return (
 		<div className={classes} {...dataAttributes}>
-			<div className="flex flex-col gap-4">
-				{showHeader && renderHeader()}
-				{showBody && renderBody()}
-				{showFooter && renderFooter()}
-			</div>
+			{showHeader && renderHeader()}
+			{showBody && renderBody()}
+			{showFooter && renderFooter()}
 		</div>
 	);
 };

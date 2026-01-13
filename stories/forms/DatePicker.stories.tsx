@@ -15,17 +15,8 @@ export default {
 	],
 	args: {
 		id: "date",
-		maxDate: {
-			year: 2029,
-			month: 11,
-			date: 15,
-		},
-
-		minDate: {
-			year: 2023,
-			month: 2,
-			date: 14,
-		},
+		maxDate: new Date(2029, 11, 15),
+		minDate: new Date(2023, 2, 14),
 		clearable: false,
 		showTimePicker: true,
 		error: false,

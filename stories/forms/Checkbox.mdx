@@ -1,6 +1,6 @@
-import { Checkbox } from '../../src';
-import { Controls, Canvas, Meta, Story } from '@storybook/blocks';
-import * as CheckboxStories from './Checkbox.stories';
+import { Checkbox } from "../../src";
+import { Controls, Canvas, Meta, Story } from "@storybook/blocks";
+import * as CheckboxStories from "./Checkbox.stories";
 
 <Meta of={CheckboxStories} />
 
@@ -9,17 +9,7 @@ export const Template = (args) => <Checkbox {...args} />;
 # Checkbox
 
 <Canvas>
-  <Story of={CheckboxStories.Unchecked} />
-
-  <Story of={CheckboxStories.Indeterminate} />
-
-  <Story of={CheckboxStories.Checked} />
-</Canvas>
-
-## Checkbox API
-
-<Canvas>
-  <Story of={CheckboxStories.Api} />
+	<Story of={CheckboxStories.Api} />
 </Canvas>
 
 <Controls />

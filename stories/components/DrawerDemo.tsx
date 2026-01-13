@@ -5,7 +5,7 @@ import React from "react";
 export const DrawerDemo = () => {
 	const [isOpen, setIsOpen] = useState(false);
 	const [optionSelected, setOptionSelected] = useState<any>(1);
-	const [date, setDate] = useState<any>(null);
+	const [date, setDate] = useState<Date | null>(null);
 	return (
 		<div
 			style={{
@@ -47,7 +47,7 @@ export const DrawerDemo = () => {
 						</div>
 					}
 				>
-					<Button onClick={() => setDate({ date: 10, month: 10, year: 2023 })}>
+					<Button onClick={() => setDate(new Date(2023, 10, 10))}>
 						TEST
 					</Button>
 					<p>Are you sure you want to continue?</p>

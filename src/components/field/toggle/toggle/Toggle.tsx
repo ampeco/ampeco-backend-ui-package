@@ -24,6 +24,7 @@ interface Toggle extends DataAttributes {
 	id?: string;
 	className?: classNames.Value;
 	disabled?: boolean;
+	required?: boolean;
 	isCompact?: boolean;
 	children?: ReactNode;
 }
@@ -38,6 +39,7 @@ export const Toggle = forwardRef<HTMLInputElement, Toggle>(function Toggle(
 		id,
 		className,
 		disabled,
+		required,
 		isCompact = true,
 		children,
 		dataAttributes,
@@ -71,7 +73,7 @@ export const Toggle = forwardRef<HTMLInputElement, Toggle>(function Toggle(
 					"rounded-full relative",
 					"transition-all duration-400",
 					{ "ring-3 ring-primary-200": withinFocus },
-					{ "bg-gray-200 dark:bg-gray-800": !finalValue },
+					{ "bg-gray-200 dark:bg-gray-500": !finalValue },
 					{ "bg-primary-500": finalValue },
 					{ "cursor-pointer": !disabled },
 					{ "opacity-50": disabled },
@@ -100,6 +102,7 @@ export const Toggle = forwardRef<HTMLInputElement, Toggle>(function Toggle(
 				id={id ?? uniqueId}
 				name={name}
 				disabled={disabled}
+				required={required}
 				onChange={handleChange}
 				onFocus={() => setWithinFocus(true)}
 				onBlur={() => setWithinFocus(false)}

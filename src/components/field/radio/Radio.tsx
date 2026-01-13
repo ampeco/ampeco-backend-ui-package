@@ -30,6 +30,7 @@ interface RadioProps
 	name?: string;
 	id?: string;
 	disabled?: boolean;
+	required?: boolean;
 	children?: ReactNode;
 }
 
@@ -42,6 +43,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
 		name,
 		id,
 		disabled,
+		required,
 		children,
 		dataAttributes,
 		...props
@@ -103,10 +105,11 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
 					ref={ref}
 					type="radio"
 					value={value}
-					id={id ?? uniqueId}
+					id={uniqueId}
 					name={finalName}
 					checked={isChecked}
 					disabled={disabled}
+					required={required}
 					onChange={handleChange}
 					className="-z-1 absolute opacity-0"
 					{...props}
@@ -116,7 +119,7 @@ export const Radio = forwardRef<HTMLInputElement, RadioProps>(function Radio(
 				className={classNames({
 					"cursor-pointer": !disabled,
 				})}
-				htmlFor={id ?? uniqueId}
+				htmlFor={uniqueId}
 			>
 				{children}
 			</label>

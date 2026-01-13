@@ -19,7 +19,7 @@ interface DropdownProps extends DataAttributes {
 	 */
 	toggleElement?: React.ReactNode;
 	options: DropdownItem[];
-	customClasses?: string;
+	className?: string;
 	position: "right" | "left";
 }
 
@@ -28,7 +28,7 @@ export const Dropdown: FC<DropdownProps> = ({
 	renderToggle,
 	toggleElement,
 	options,
-	customClasses,
+	className,
 	position = "right",
 	dataAttributes,
 }) => {
@@ -88,7 +88,7 @@ export const Dropdown: FC<DropdownProps> = ({
 	return (
 		<div
 			ref={dropdownRef}
-			className={`relative w-max ${customClasses}`}
+			className={`relative w-max ${className}`}
 			{...dataAttributes}
 		>
 			<div onClick={toggle}>

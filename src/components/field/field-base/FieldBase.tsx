@@ -30,7 +30,7 @@ export const FieldBase = ({
 	...props
 }: FieldBaseProps) => {
 	const classes = classNames(
-		"flex gap-2 items-center self-stretch border border-gray-300 bg-white dark:bg-gray-900 outline-none box-shadow-none background-clip-padding-box",
+		"flex-1 flex gap-2 items-center self-stretch border border-gray-300 bg-white dark:bg-gray-900 outline-none box-shadow-none background-clip-padding-box",
 		{
 			"bg-gray-100 border-gray-200": disabled,
 			"bg-gray-50 border-gray-200": readonly,

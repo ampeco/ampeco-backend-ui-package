@@ -7,8 +7,10 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 describe("Select", () => {
 	test("renders Select component with default props", () => {
 		const { container } = render(<Select options={[]} />);
-		// Select wrapper has class "relative w-max"
-		const selectElement = container.querySelector('[class*="relative w-max"]');
+		// Select wrapper has class "w-max flex flex-col gap-2"
+		const selectElement = container.querySelector(
+			'[class*="w-max flex flex-col gap-2"]'
+		);
 		assert(selectElement !== null, "Select component should be rendered");
 	});
 
@@ -27,11 +29,9 @@ describe("Select", () => {
 			<Select options={options} onChange={handleChange} />
 		);
 
-		// Click on the FieldBase to open the dropdown
-		const fieldBase = container.querySelector(
-			'[class*="flex gap-2 items-center"]'
-		);
-		fireEvent.click(fieldBase!);
+		// Focus on the input to open the dropdown
+		const input = container.querySelector("input");
+		fireEvent.focus(input!);
 
 		// Wait for dropdown to open and options to appear
 		await waitFor(() => {
@@ -64,11 +64,9 @@ describe("Select", () => {
 			<Select options={options} onChange={handleChange} multi />
 		);
 
-		// Click on the FieldBase to open the dropdown
-		const fieldBase = container.querySelector(
-			'[class*="flex gap-2 items-center"]'
-		);
-		fireEvent.click(fieldBase!);
+		// Focus on the input to open the dropdown
+		const input = container.querySelector("input");
+		fireEvent.focus(input!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {
@@ -118,11 +116,9 @@ describe("Select", () => {
 			/>
 		);
 
-		// When disabled, clicking should not open the dropdown
-		const fieldBase = container.querySelector(
-			'[class*="flex gap-2 items-center"]'
-		);
-		fireEvent.click(fieldBase!);
+		// When disabled, focusing should not open the dropdown
+		const input = container.querySelector("input");
+		fireEvent.focus(input!);
 
 		// Wait a bit to ensure dropdown doesn't open
 		await new Promise((resolve) => setTimeout(resolve, 100));
@@ -139,7 +135,9 @@ describe("Select", () => {
 	test("implements defined class name", () => {
 		const customClassName = "custom-select";
 		const { container } = render(<Select className={customClassName} />);
-		const selectWrapper = container.querySelector('[class*="relative w-max"]');
+		const selectWrapper = container.querySelector(
+			'[class*="w-max flex flex-col gap-2"]'
+		);
 
 		expect(selectWrapper).toHaveClass("custom-select");
 	});
@@ -161,11 +159,9 @@ describe("Select", () => {
 
 		const { container } = render(<Select options={options} />);
 
-		// Click on the FieldBase to open the dropdown
-		const fieldBase = container.querySelector(
-			'[class*="flex gap-2 items-center"]'
-		);
-		fireEvent.click(fieldBase!);
+		// Focus on the input to open the dropdown
+		const input = container.querySelector("input");
+		fireEvent.focus(input!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {
@@ -211,11 +207,9 @@ describe("Select", () => {
 			<Select options={options} />
 		);
 
-		// Click on the FieldBase to open the dropdown
-		const fieldBase = container.querySelector(
-			'[class*="flex gap-2 items-center"]'
-		);
-		fireEvent.click(fieldBase!);
+		// Focus on the input to open the dropdown
+		const input = container.querySelector("input");
+		fireEvent.focus(input!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {

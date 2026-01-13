@@ -74,3 +74,11 @@ h3 {
 p {
 	@apply mb-4;
 }
+
+a {
+	@apply text-primary-500;
+}
+
+a:hover {
+	@apply underline;
+}

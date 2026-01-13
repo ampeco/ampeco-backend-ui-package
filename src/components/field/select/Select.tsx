@@ -353,7 +353,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 						readonly={readonly}
 						error={error}
 						activated={isOpen}
-						onClick={handleClickField}
+						onFocus={handleClickField}
 						shape={shape}
 						size={size}
 					>
@@ -401,7 +401,7 @@ export const Select = <T extends string | number, Multi extends boolean>({
 									<XMarkIcon className="w-4 h-4 cursor-pointer" />
 								</Affix>
 							)}
-						<Affix className="select-chevron">
+						<Affix className="select-chevron" onClick={handleClickField}>
 							<ChevronDownIcon className="w-4 h-4 cursor-pointer" />
 						</Affix>
 					</FieldBase>

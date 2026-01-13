@@ -34,7 +34,7 @@ export const Card: FC<CardProps> = ({
 	const renderHeader = () => (
 		<div className="flex items-center">
 			<div className="mr-3 leading-tight text-sm font-bold">{header}</div>
-			<div className="flex relative ml-auto w-24 shrink-0">{actions}</div>
+			<div className="flex relative ml-auto max-w-24 shrink-0">{actions}</div>
 		</div>
 	);
 

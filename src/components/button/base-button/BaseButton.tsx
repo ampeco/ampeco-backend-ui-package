@@ -60,7 +60,8 @@ const BaseButton = ({
 			{...props}
 			aria-label={label}
 		>
-			{loading ? <Loader size="xs" color="currentColor" /> : children}
+			<span className="ml-2">{children}</span>
+			{loading && <Loader size="xs" color="currentColor" />}
 		</button>
 	);
 };

@@ -23,9 +23,11 @@ describe("Button", () => {
 	});
 
 	it("applies correct variant class", () => {
-		render(<Button variant="outline">Outlined Button</Button>);
+		const { container } = render(
+			<Button variant="outline">Outlined Button</Button>
+		);
 
-		const buttonElement = screen.getByText(/Outlined Button/i); // Query by text content
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("border-2");
 		expect(buttonElement).toHaveClass("border-gray-200");
 	});
@@ -55,36 +57,44 @@ describe("Button", () => {
 	});
 
 	it("when button size is set to small it needs to have button-small class", () => {
-		render(<Button size={Size.SMALL}>Small button</Button>);
+		const { container } = render(
+			<Button size={Size.SMALL}>Small button</Button>
+		);
 
-		const buttonElement = screen.getByText("Small button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-xs");
 		expect(buttonElement).toHaveClass("px-2");
 		expect(buttonElement).toHaveClass("h-7");
 	});
 
 	it("when button size is set to medium it needs to have button-medium class", () => {
-		render(<Button size={Size.MEDIUM}>Medium button</Button>);
+		const { container } = render(
+			<Button size={Size.MEDIUM}>Medium button</Button>
+		);
 
-		const buttonElement = screen.getByText("Medium button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-sm");
 		expect(buttonElement).toHaveClass("px-4");
 		expect(buttonElement).toHaveClass("h-9");
 	});
 
 	it("when button size is set to large it needs to have ph-button-large class", () => {
-		render(<Button size={Size.LARGE}>Large button</Button>);
+		const { container } = render(
+			<Button size={Size.LARGE}>Large button</Button>
+		);
 
-		const buttonElement = screen.getByText("Large button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-base");
 		expect(buttonElement).toHaveClass("px-6");
 		expect(buttonElement).toHaveClass("h-11");
 	});
 
 	it("when button shape is set to round it needs to have shape-rounded class", () => {
-		render(<Button shape={Shape.ROUNDED}>Round button</Button>);
+		const { container } = render(
+			<Button shape={Shape.ROUNDED}>Round button</Button>
+		);
 
-		const buttonElement = screen.getByText("Round button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("rounded-full");
 	});
 });

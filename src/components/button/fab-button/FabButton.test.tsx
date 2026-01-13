@@ -22,9 +22,9 @@ describe("FabButton", () => {
 	});
 
 	it("applies correct variant class", () => {
-		render(<FabButton variant="outline">Outlined Button</FabButton>);
+		const { container } = render(<FabButton variant="outline">Outlined Button</FabButton>);
 
-		const buttonElement = screen.getByText(/Outlined Button/i);
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("border-2");
 		expect(buttonElement).toHaveClass("border-gray-200");
 	});
@@ -54,27 +54,27 @@ describe("FabButton", () => {
 	});
 
 	it("when button size is set to small it needs to have button-small class", () => {
-		render(<FabButton size={Size.SMALL}>Small button</FabButton>);
+		const { container } = render(<FabButton size={Size.SMALL}>Small button</FabButton>);
 
-		const buttonElement = screen.getByText("Small button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-xs");
 		expect(buttonElement).toHaveClass("px-2");
 		expect(buttonElement).toHaveClass("h-7");
 	});
 
 	it("when button size is set to medium it needs to have button-medium class", () => {
-		render(<FabButton size={Size.MEDIUM}>Medium button</FabButton>);
+		const { container } = render(<FabButton size={Size.MEDIUM}>Medium button</FabButton>);
 
-		const buttonElement = screen.getByText("Medium button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-sm");
 		expect(buttonElement).toHaveClass("px-4");
 		expect(buttonElement).toHaveClass("h-9");
 	});
 
 	it("when button size is set to large it needs to have ph-button-large class", () => {
-		render(<FabButton size={Size.LARGE}>Large button</FabButton>);
+		const { container } = render(<FabButton size={Size.LARGE}>Large button</FabButton>);
 
-		const buttonElement = screen.getByText("Large button");
+		const buttonElement = container.querySelector("button");
 		expect(buttonElement).toHaveClass("text-base");
 		expect(buttonElement).toHaveClass("px-6");
 		expect(buttonElement).toHaveClass("h-11");

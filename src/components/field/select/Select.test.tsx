@@ -29,11 +29,11 @@ describe("Select", () => {
 			<Select options={options} onChange={handleChange} />
 		);
 
-		// Click on the FieldBase to open the dropdown
+		// Focus on the FieldBase to open the dropdown
 		const fieldBase = container.querySelector(
 			'[class*="flex gap-2 items-center"]'
 		);
-		fireEvent.click(fieldBase!);
+		fireEvent.focus(fieldBase!);
 
 		// Wait for dropdown to open and options to appear
 		await waitFor(() => {
@@ -66,11 +66,11 @@ describe("Select", () => {
 			<Select options={options} onChange={handleChange} multi />
 		);
 
-		// Click on the FieldBase to open the dropdown
+		// Focus on the FieldBase to open the dropdown
 		const fieldBase = container.querySelector(
 			'[class*="flex gap-2 items-center"]'
 		);
-		fireEvent.click(fieldBase!);
+		fireEvent.focus(fieldBase!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {
@@ -120,11 +120,11 @@ describe("Select", () => {
 			/>
 		);
 
-		// When disabled, clicking should not open the dropdown
+		// When disabled, focusing should not open the dropdown
 		const fieldBase = container.querySelector(
 			'[class*="flex gap-2 items-center"]'
 		);
-		fireEvent.click(fieldBase!);
+		fireEvent.focus(fieldBase!);
 
 		// Wait a bit to ensure dropdown doesn't open
 		await new Promise((resolve) => setTimeout(resolve, 100));
@@ -165,11 +165,11 @@ describe("Select", () => {
 
 		const { container } = render(<Select options={options} />);
 
-		// Click on the FieldBase to open the dropdown
+		// Focus on the FieldBase to open the dropdown
 		const fieldBase = container.querySelector(
 			'[class*="flex gap-2 items-center"]'
 		);
-		fireEvent.click(fieldBase!);
+		fireEvent.focus(fieldBase!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {
@@ -215,11 +215,11 @@ describe("Select", () => {
 			<Select options={options} />
 		);
 
-		// Click on the FieldBase to open the dropdown
+		// Focus on the FieldBase to open the dropdown
 		const fieldBase = container.querySelector(
 			'[class*="flex gap-2 items-center"]'
 		);
-		fireEvent.click(fieldBase!);
+		fireEvent.focus(fieldBase!);
 
 		// Wait for dropdown to open
 		await waitFor(() => {

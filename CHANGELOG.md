@@ -7,6 +7,11 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - AMPECO UI - 0.2.x (compatible with React 19.x.x)
 - Package Name - ampeco-ui
 
+### 0.4.2
+
+- Card: Add className prop support
+- Fix Select component tests
+
 ### 0.4.1
 
 - Fixed dropdown position when there's an error

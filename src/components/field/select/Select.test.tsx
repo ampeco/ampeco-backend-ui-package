@@ -7,8 +7,10 @@ import { XMarkIcon } from "@heroicons/react/24/solid";
 describe("Select", () => {
 	test("renders Select component with default props", () => {
 		const { container } = render(<Select options={[]} />);
-		// Select wrapper has class "relative w-max"
-		const selectElement = container.querySelector('[class*="relative w-max"]');
+		// Select wrapper has class "w-max flex flex-col gap-2"
+		const selectElement = container.querySelector(
+			'[class*="w-max flex flex-col gap-2"]'
+		);
 		assert(selectElement !== null, "Select component should be rendered");
 	});
 
@@ -139,7 +141,9 @@ describe("Select", () => {
 	test("implements defined class name", () => {
 		const customClassName = "custom-select";
 		const { container } = render(<Select className={customClassName} />);
-		const selectWrapper = container.querySelector('[class*="relative w-max"]');
+		const selectWrapper = container.querySelector(
+			'[class*="w-max flex flex-col gap-2"]'
+		);
 
 		expect(selectWrapper).toHaveClass("custom-select");
 	});

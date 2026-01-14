@@ -16,6 +16,7 @@ interface CardProps extends DataAttributes {
 	footer?: ReactNode | string;
 	header?: ReactNode | string;
 	actions?: ReactNode | string;
+	className?: string;
 }
 export const Card: FC<CardProps> = ({
 	shape = Shape.DEFAULT,
@@ -30,6 +31,7 @@ export const Card: FC<CardProps> = ({
 	header,
 	actions,
 	dataAttributes,
+	className,
 }) => {
 	const renderHeader = () => (
 		<div className="flex items-center">
@@ -68,7 +70,8 @@ export const Card: FC<CardProps> = ({
 		{
 			selected: selected,
 			disabled: disabled,
-		}
+		},
+		className
 	);
 
 	return (

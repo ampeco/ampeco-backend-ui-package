@@ -1,0 +1,371 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Documentation/Theming" />
+
+# Theming
+
+AmpecoUI supports dark mode through Tailwind CSS's dark mode variant. This guide explains how dark mode works and how to configure it for your application.
+
+## Overview
+
+By default, the library uses **system preference mode**, which automatically follows the user's operating system theme preference. If you need manual control over dark mode, you can switch to class-based mode.
+
+AmpecoUI includes a comprehensive color system with semantic color palettes for primary actions, success states, warnings, and errors.
+
+## Color Scheme
+
+AmpecoUI provides a carefully designed color palette that works seamlessly in both light and dark modes. The color system includes:
+
+### Primary Colors
+
+The primary color palette (blue) is used for main actions, links, and interactive elements:
+
+- `primary-50` through `primary-950` - Full range from lightest to darkest
+- Default primary: `primary-500` (rgb(14, 165, 233))
+
+```tsx
+import { Button } from "@ampeco/ampeco-ui";
+
+// Primary color is used by default
+<Button variant="primary">Primary Button</Button>
+
+// You can also use primary colors in custom components
+<div className="bg-primary-500 text-white">Primary background</div>
+<div className="text-primary-600">Primary text</div>
+```
+
+### Success Colors
+
+Green palette for success states, confirmations, and positive feedback:
+
+- `success-50` through `success-950`
+- Default success: `success-500` (rgb(34, 197, 94))
+
+```tsx
+<div className="bg-success-100 text-success-800 border border-success-300">
+	Success message
+</div>
+```
+
+### Warning Colors
+
+Yellow/amber palette for warnings and cautionary messages:
+
+- `warning-50` through `warning-950`
+- Default warning: `warning-500` (rgb(234, 179, 8))
+
+```tsx
+<div className="bg-warning-100 text-warning-800 border border-warning-300">
+	Warning message
+</div>
+```
+
+### Danger Colors
+
+Red palette for errors, destructive actions, and critical alerts:
+
+- `danger-50` through `danger-950`
+- Default danger: `danger-500` (rgb(239, 68, 68))
+
+```tsx
+<div className="bg-danger-100 text-danger-800 border border-danger-300">
+	Error message
+</div>
+```
+
+### Using Colors in Your Components
+
+All color tokens are available as Tailwind CSS utilities:
+
+```tsx
+// Background colors
+<div className="bg-primary-500">Primary background</div>
+<div className="bg-success-100">Light success background</div>
+
+// Text colors
+<p className="text-primary-600">Primary text</p>
+<p className="text-danger-500">Danger text</p>
+
+// Border colors
+<div className="border border-warning-300">Warning border</div>
+
+// Dark mode support (automatically handled)
+<div className="bg-primary-500 dark:bg-primary-600">
+  Adapts to dark mode
+</div>
+```
+
+### Color Scale
+
+Each color palette follows a consistent scale from 50 (lightest) to 950 (darkest):
+
+- **50-100**: Very light, used for subtle backgrounds
+- **200-300**: Light, used for borders and hover states
+- **400-500**: Medium, used for primary actions and default states
+- **600-700**: Dark, used for hover and active states
+- **800-950**: Very dark, used for text and emphasis
+
+### Customizing Colors
+
+The color scheme is defined in the library's CSS using CSS custom properties. If you need to customize colors, you can override them in your own CSS:
+
+```css
+@import "@ampeco/ampeco-ui/dist/style.css";
+
+/* Override primary color */
+@theme {
+	--color-primary-500: rgb(59, 130, 246); /* Your custom blue */
+	--color-primary-600: rgb(37, 99, 235);
+}
+```
+
+Note: When customizing colors, ensure you maintain sufficient contrast ratios for accessibility, especially in dark mode.
+
+## Current Configuration
+
+AmpecoUI currently uses **system preference mode** (Tailwind CSS's default behavior). This means dark mode is automatically activated based on the user's operating system preference via the `prefers-color-scheme` CSS media feature.
+
+With this approach:
+
+- ✅ Dark mode automatically follows the user's system theme
+- ✅ No configuration needed
+- ❌ You cannot manually toggle dark mode
+
+## Activating Class-Based Dark Mode
+
+If you want to manually control dark mode (e.g., add a theme toggle button), you can switch to **class-based dark mode**. This gives you full control over when dark mode is applied.
+
+### Step 1: Add the Custom Variant
+
+In your main CSS file (where you import Tailwind and AmpecoUI styles), add the custom variant configuration:
+
+```css
+@import "tailwindcss";
+@import "@ampeco/ampeco-ui/dist/style.css";
+
+@custom-variant dark (&:where(.dark, .dark *));
+```
+
+This configuration tells Tailwind to apply `dark:` utilities when the `.dark` class is present anywhere up the DOM tree, instead of using the system preference.
+
+### Step 2: Toggle the Dark Class
+
+Add or remove the `dark` class on your root HTML element to control dark mode:
+
+```tsx
+import { useState, useEffect } from "react";
+
+function App() {
+	const [isDark, setIsDark] = useState(false);
+
+	useEffect(() => {
+		if (isDark) {
+			document.documentElement.classList.add("dark");
+		} else {
+			document.documentElement.classList.remove("dark");
+		}
+	}, [isDark]);
+
+	return (
+		<div>
+			<button onClick={() => setIsDark(!isDark)}>Toggle Dark Mode</button>
+			{/* Your components */}
+		</div>
+	);
+}
+```
+
+### Using a Data Attribute Instead
+
+You can also use a data attribute instead of a class:
+
+```css
+@import "tailwindcss";
+
+@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+```
+
+Then toggle it with:
+
+```tsx
+document.documentElement.setAttribute("data-theme", "dark");
+// or
+document.documentElement.removeAttribute("data-theme");
+```
+
+## System Theme Support with Manual Toggle
+
+You can build a three-way theme toggle that supports:
+
+- Light mode
+- Dark mode
+- System preference
+
+Here's an example implementation:
+
+```tsx
+import { useEffect, useState } from "react";
+
+function useTheme() {
+	const [theme, setTheme] = useState<"light" | "dark" | "system">("system");
+
+	useEffect(() => {
+		// On page load, check localStorage and system preference
+		const storedTheme = localStorage.getItem("theme") as
+			| "light"
+			| "dark"
+			| "system"
+			| null;
+		const shouldBeDark =
+			storedTheme === "dark" ||
+			(storedTheme !== "light" &&
+				window.matchMedia("(prefers-color-scheme: dark)").matches);
+
+		document.documentElement.classList.toggle("dark", shouldBeDark);
+		setTheme(storedTheme || "system");
+	}, []);
+
+	const updateTheme = (newTheme: "light" | "dark" | "system") => {
+		setTheme(newTheme);
+
+		if (newTheme === "system") {
+			localStorage.removeItem("theme");
+			const systemPrefersDark = window.matchMedia(
+				"(prefers-color-scheme: dark)"
+			).matches;
+			document.documentElement.classList.toggle("dark", systemPrefersDark);
+		} else {
+			localStorage.setItem("theme", newTheme);
+			document.documentElement.classList.toggle("dark", newTheme === "dark");
+		}
+	};
+
+	return { theme, setTheme: updateTheme };
+}
+
+function App() {
+	const { theme, setTheme } = useTheme();
+
+	return (
+		<div>
+			<select value={theme} onChange={(e) => setTheme(e.target.value as any)}>
+				<option value="light">Light</option>
+				<option value="dark">Dark</option>
+				<option value="system">System</option>
+			</select>
+			{/* Your components */}
+		</div>
+	);
+}
+```
+
+## Using Dark Mode in Components
+
+Once dark mode is configured, you can use the `dark:` variant in your Tailwind classes:
+
+```tsx
+import { Button } from "@ampeco/ampeco-ui";
+
+function MyComponent() {
+	return (
+		<div className="bg-white dark:bg-gray-900 text-gray-900 dark:text-white">
+			<h1 className="text-2xl font-bold">Hello World</h1>
+			<Button variant="primary">Click Me</Button>
+		</div>
+	);
+}
+```
+
+All AmpecoUI components already include dark mode styles, so they will automatically adapt when you toggle dark mode.
+
+## Preventing Flash of Unstyled Content (FOUC)
+
+To prevent a flash of unstyled content when the page loads, add this script in your HTML `<head>` before any other content:
+
+```html
+<script>
+	// Check localStorage and system preference before page renders
+	(function () {
+		const theme = localStorage.getItem("theme");
+		const prefersDark = window.matchMedia(
+			"(prefers-color-scheme: dark)"
+		).matches;
+		const shouldBeDark = theme === "dark" || (!theme && prefersDark);
+
+		if (shouldBeDark) {
+			document.documentElement.classList.add("dark");
+		}
+	})();
+</script>
+```
+
+## Example: Complete Theme Toggle Component
+
+Here's a complete example of a theme toggle component:
+
+```tsx
+import { useState, useEffect } from "react";
+import { Button } from "@ampeco/ampeco-ui";
+
+type Theme = "light" | "dark" | "system";
+
+function ThemeToggle() {
+	const [theme, setTheme] = useState<Theme>(() => {
+		// Initialize from localStorage or default to system
+		return (localStorage.getItem("theme") as Theme) || "system";
+	});
+
+	useEffect(() => {
+		const root = document.documentElement;
+
+		if (theme === "system") {
+			const systemPrefersDark = window.matchMedia(
+				"(prefers-color-scheme: dark)"
+			).matches;
+			root.classList.toggle("dark", systemPrefersDark);
+			localStorage.removeItem("theme");
+		} else {
+			root.classList.toggle("dark", theme === "dark");
+			localStorage.setItem("theme", theme);
+		}
+
+		// Listen for system theme changes
+		const mediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+		const handleChange = (e: MediaQueryListEvent) => {
+			if (theme === "system") {
+				root.classList.toggle("dark", e.matches);
+			}
+		};
+
+		mediaQuery.addEventListener("change", handleChange);
+		return () => mediaQuery.removeEventListener("change", handleChange);
+	}, [theme]);
+
+	const cycleTheme = () => {
+		setTheme((prev) => {
+			if (prev === "light") return "dark";
+			if (prev === "dark") return "system";
+			return "light";
+		});
+	};
+
+	return (
+		<Button onClick={cycleTheme} variant="outline">
+			Theme: {theme}
+		</Button>
+	);
+}
+```
+
+## Additional Resources
+
+For more information about Tailwind CSS dark mode configuration, see the [official Tailwind CSS dark mode documentation](https://tailwindcss.com/docs/dark-mode#overview).
+
+## Summary
+
+- **AmpecoUI uses system preference mode by default** - dark mode follows the user's OS theme
+- **To enable manual control**, add `@custom-variant dark (&:where(.dark, .dark *));` to your CSS
+- **Toggle dark mode** by adding/removing the `dark` class on your root HTML element
+- **All components** automatically support dark mode through Tailwind's `dark:` variant
+- **Prevent FOUC** by checking theme preference before the page renders
+- **Support system preference** by listening to `prefers-color-scheme` media queries

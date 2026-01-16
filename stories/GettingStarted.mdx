@@ -1,0 +1,263 @@
+import { Meta } from "@storybook/blocks";
+
+<Meta title="Documentation/Getting started" />
+
+# Getting Started
+
+This guide will help you integrate AmpecoUI into your React application.
+
+## Requirements
+
+Before installing AmpecoUI, ensure your project meets the following requirements:
+
+- **React** ^19.0.0
+- **React DOM** ^19.0.0
+- **React Router DOM** ^7.2.0 (peer dependency)
+- **Node.js** 18.x, 20.x, or 22.x
+- **Tailwind CSS v4** (for styling)
+
+## Installation
+
+### Step 1: Authenticate with GitHub Package Registry
+
+AmpecoUI is published to GitHub Package Registry. You need to authenticate before installing.
+
+#### Option A: Using .npmrc file
+
+1. **Create a GitHub Personal Access Token (PAT):**
+
+   - Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Generate a new token with `read:packages` scope
+   - Copy the token
+
+2. **Create or edit `.npmrc` file** in your project root:
+
+```ini
+@ampeco:registry=https://npm.pkg.github.com
+//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
+```
+
+Replace `YOUR_GITHUB_TOKEN` with your personal access token.
+
+#### Option B: Using npm login
+
+```shell
+npm login --scope=@ampeco --auth-type=legacy --registry=https://npm.pkg.github.com
+```
+
+### Step 2: Install the Package
+
+```shell
+npm install @ampeco/ampeco-ui
+```
+
+## Setup
+
+### Step 1: Import Styles
+
+Import the required CSS file in your application entry point:
+
+**In your main TypeScript/JavaScript file (e.g., `main.tsx`, `index.tsx`):**
+
+```typescript
+import "@ampeco/ampeco-ui/dist/style.css";
+```
+
+**Or in your main CSS file:**
+
+```css
+@import "@ampeco/ampeco-ui/dist/style.css";
+```
+
+### Step 2: Configure Tailwind CSS
+
+The design system uses Tailwind CSS v4. Make sure your project has Tailwind CSS configured to support dark mode. The components use Tailwind's `dark:` variant for dark mode support.
+
+**Example `tailwind.config.js`:**
+
+```javascript
+/** @type {import('tailwindcss').Config} */
+export default {
+	content: [
+		"./index.html",
+		"./src/**/*.{js,ts,jsx,tsx}",
+		"./node_modules/@ampeco/ampeco-ui/dist/**/*.{js,ts,jsx,tsx}",
+	],
+	darkMode: "class", // or 'media' depending on your preference
+	theme: {
+		extend: {},
+	},
+	plugins: [],
+};
+```
+
+**Important:** Make sure to include the `node_modules/@ampeco/ampeco-ui/dist` path in your Tailwind content configuration so that the component styles are properly processed.
+
+## Basic Usage
+
+### Importing Components
+
+Import components from the main package:
+
+```typescript
+import { Button, Card, Input, Select } from "@ampeco/ampeco-ui";
+```
+
+### Example: Using a Button
+
+```tsx
+import { Button } from "@ampeco/ampeco-ui";
+
+function MyComponent() {
+	return (
+		<Button variant="primary" onClick={() => console.log("Clicked!")}>
+			Click Me
+		</Button>
+	);
+}
+```
+
+### Example: Using Form Components
+
+```tsx
+import { Input, Select, Button } from "@ampeco/ampeco-ui";
+import { useState } from "react";
+
+function MyForm() {
+	const [name, setName] = useState("");
+	const [country, setCountry] = useState("");
+
+	return (
+		<form>
+			<Input
+				label="Name"
+				value={name}
+				onChange={(e) => setName(e.target.value)}
+				required
+			/>
+			<Select
+				label="Country"
+				value={country}
+				onChange={(value) => setCountry(value)}
+				options={[
+					{ value: "us", label: "United States" },
+					{ value: "uk", label: "United Kingdom" },
+				]}
+			/>
+			<Button type="submit" variant="primary">
+				Submit
+			</Button>
+		</form>
+	);
+}
+```
+
+### Example: Using DatePicker with Date Objects
+
+The DatePicker component uses native `Date` objects, making it compatible with form validation libraries like zod:
+
+```tsx
+import { DatePicker } from "@ampeco/ampeco-ui";
+import { useState } from "react";
+
+function MyDateForm() {
+	const [date, setDate] = useState<Date | null>(null);
+
+	return (
+		<DatePicker
+			value={date}
+			onChange={(newDate) => setDate(newDate)}
+			label="Select a date"
+			minDate={new Date(2023, 0, 1)}
+			maxDate={new Date(2029, 11, 31)}
+		/>
+	);
+}
+```
+
+## TypeScript Support
+
+AmpecoUI is built with TypeScript and includes full type definitions. Types are automatically available when you import components:
+
+```typescript
+import { Button } from "@ampeco/ampeco-ui";
+import type { ButtonProps } from "@ampeco/ampeco-ui";
+
+// TypeScript will provide full type checking and autocomplete
+const buttonProps: ButtonProps = {
+	variant: "primary",
+	size: "md",
+	disabled: false,
+};
+```
+
+## Dark Mode
+
+Components support dark mode through Tailwind's `dark:` variant. By default, dark mode follows the user's operating system preference.
+
+If you want to manually control dark mode, you can configure class-based dark mode. See the [Theming documentation](./?path=/docs/documentation-theming--docs) for detailed instructions.
+
+```tsx
+import { useState } from "react";
+
+function App() {
+	const [isDark, setIsDark] = useState(false);
+
+	return (
+		<div className={isDark ? "dark" : ""}>
+			{/* Your components will automatically adapt to dark mode */}
+			<Button variant="primary">Click Me</Button>
+		</div>
+	);
+}
+```
+
+## Available Components
+
+AmpecoUI provides a comprehensive set of components:
+
+### UI Components
+
+- Accordion
+- Alert
+- Breadcrumbs
+- Button
+- Card
+- Chart
+- Dialog
+- Drawer
+- Dropdown
+- FabButton
+- List
+- Loader
+- Message
+- Notification
+- Pagination
+- Popover
+- Skeleton
+- SmartTable
+- Table
+- Tabs
+- Tag
+- Tooltip
+
+### Form Components
+
+- Checkbox
+- DatePicker
+- FileUpload
+- Input
+- Radio
+- RadioGroup
+- Select
+- Textarea
+- TimePicker
+- Toggle
+
+For detailed documentation on each component, explore the component stories in the sidebar.
+
+## Getting Help
+
+- **Documentation:** [View Storybook](https://ampeco.github.io/ampeco-backend-ui-package/)
+- **Issues:** [GitHub Issues](https://github.com/ampeco/ampeco-backend-ui-package/issues)
+- **Repository:** [GitHub Repository](https://github.com/ampeco/ampeco-backend-ui-package)

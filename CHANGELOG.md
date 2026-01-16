@@ -7,6 +7,11 @@ UI Components library for AMPECO based on Laravel Nova Design System.
 - AMPECO UI - 0.2.x (compatible with React 19.x.x)
 - Package Name - ampeco-ui
 
+### 0.5.0
+
+- Add Getting Started documentation page with integration guide
+- Add Theming documentation page with color scheme and dark mode configuration
+
 ### 0.4.5
 
 - Update Select component tests to use focus instead of click for dropdown activation

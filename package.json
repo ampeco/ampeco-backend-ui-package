@@ -1,6 +1,6 @@
 {
 	"name": "@ampeco/ampeco-ui",
-	"version": "0.5.0",
+	"version": "0.5.1",
 	"description": "A collection of React UI components built with Tailwind CSS, based on Nova",
 	"license": "MIT",
 	"author": "Ampeco",

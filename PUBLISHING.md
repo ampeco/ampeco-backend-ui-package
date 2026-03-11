@@ -1,19 +1,15 @@
 # Publishing Guide
 
-This document describes how to publish the `@ampeco/ampeco-ui` package to GitHub Package Registry.
+This document describes how to publish the `@ampeco/ampeco-ui` package to [npm](https://www.npmjs.com/package/@ampeco/ampeco-ui).
 
 ## Prerequisites
 
-1. **GitHub Personal Access Token (PAT):**
-   - Go to [GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)](https://github.com/settings/tokens)
-   - Generate a new token with the following scopes:
-     - `write:packages` - to publish packages
-     - `read:packages` - to install packages
-     - `delete:packages` - (optional) to delete package versions
-   - Copy and save the token securely
-
-2. **Repository Access:**
+1. **Repository Access:**
    - You must have write access to the `ampeco/ampeco-backend-ui-package` repository
+
+2. **npm Access (for manual publishing only):**
+   - You must be a member of the `@ampeco` npm organization
+   - Authenticate with npm: `npm login`
 
 ## Publishing Methods
 
@@ -30,7 +26,7 @@ The repository includes a GitHub Actions workflow that automatically publishes t
 
 2. Commit and push the changes:
    ```shell
-   git add package.json
+   git add package.json package-lock.json
    git commit -m "Bump version to x.x.x"
    git push
    ```
@@ -48,7 +44,7 @@ The workflow will automatically run and publish the package.
 
 1. Go to the repository on GitHub
 2. Navigate to "Actions" tab
-3. Select "Publish to GitHub Packages" workflow
+3. Select "Publish to npm" workflow
 4. Click "Run workflow"
 5. Optionally specify a version (e.g., `0.1.1`) or leave empty to use the current version in `package.json`
 6. Click "Run workflow"
@@ -57,15 +53,10 @@ The workflow will automatically run and publish the package.
 
 If you prefer to publish manually from your local machine:
 
-1. **Authenticate with GitHub Packages:**
-
-   Create or edit your `~/.npmrc` file (in your home directory):
+1. **Authenticate with npm:**
+   ```shell
+   npm login
    ```
-   @ampeco:registry=https://npm.pkg.github.com
-   //npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-   ```
-
-   Replace `YOUR_GITHUB_TOKEN` with your personal access token.
 
 2. **Update the version:**
    ```shell
@@ -75,7 +66,7 @@ If you prefer to publish manually from your local machine:
 3. **Build and publish:**
    ```shell
    npm run build:lib
-   npm publish
+   npm publish --access public
    ```
 
 ## Version Management
@@ -97,46 +88,24 @@ npm version patch   # 0.1.0 → 0.1.1
 
 After publishing, verify the package:
 
-1. Go to the repository on GitHub
-2. Click on "Packages" in the right sidebar
-3. You should see `@ampeco/ampeco-ui` listed
+1. Check on npm: https://www.npmjs.com/package/@ampeco/ampeco-ui
 
-Or check via API:
+Or via CLI:
 ```shell
-curl -H "Authorization: token YOUR_GITHUB_TOKEN" \
-  https://npm.pkg.github.com/@ampeco/ampeco-ui
-```
-
-## Installing the Published Package
-
-Users need to configure their `.npmrc` to install from GitHub Packages:
-
-```
-@ampeco:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-Then install:
-```shell
-npm install @ampeco/ampeco-ui
+npm view @ampeco/ampeco-ui
 ```
 
 ## Troubleshooting
 
-### "npm ERR! 404 Not Found - GET https://registry.npmjs.org/@ampeco%2fampeco-ui"
-
-This means npm is trying to install from the public npm registry instead of GitHub Packages. Make sure your `.npmrc` is configured correctly.
-
 ### "npm ERR! 401 Unauthorized"
 
-Your GitHub token is invalid or doesn't have the required permissions. Generate a new token with `read:packages` scope.
+Your npm token is invalid or expired. Run `npm login` again.
 
 ### "npm ERR! 403 Forbidden"
 
 You don't have permission to publish to this package. Make sure:
-- You have write access to the repository
-- Your token has `write:packages` scope
-- The package name matches the repository organization (`@ampeco`)
+- You are a member of the `@ampeco` npm organization
+- You have publish permissions for the package
 
 ### Build Fails Before Publishing
 
@@ -154,4 +123,3 @@ npm run build:lib
 4. **Use semantic versioning** consistently
 5. **Write clear release notes** when creating GitHub releases
 6. **Keep dependencies up to date** but test thoroughly after updates
-

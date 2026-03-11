@@ -1,7 +1,7 @@
 # AmpecoUI 
 
 [![GitHub license](https://img.shields.io/github/license/ampeco/ampeco-backend-ui-package)](https://github.com/ampeco/ampeco-backend-ui-package/blob/main/LICENSE)
-[![npm version](https://img.shields.io/github/package-json/v/ampeco/ampeco-backend-ui-package)](https://github.com/ampeco/ampeco-backend-ui-package/packages)
+[![npm version](https://img.shields.io/npm/v/@ampeco/ampeco-ui)](https://www.npmjs.com/package/@ampeco/ampeco-ui)
 [![Storybook](https://img.shields.io/badge/Storybook-View%20Docs-FF4785?logo=storybook)](https://ampeco.github.io/ampeco-backend-ui-package/)
 [![GitHub issues](https://img.shields.io/github/issues/ampeco/ampeco-backend-ui-package)](https://github.com/ampeco/ampeco-backend-ui-package/issues)
 
@@ -20,33 +20,7 @@ See [CHANGELOG.md](./CHANGELOG.md) for version history.
 
 ### Installation
 
-#### Prerequisites
-
-This package is published to GitHub Package Registry. You need to authenticate with GitHub Packages before installing.
-
-1. **Create a GitHub Personal Access Token (PAT):**
-   - Go to GitHub Settings → Developer settings → Personal access tokens → Tokens (classic)
-   - Generate a new token with `read:packages` scope
-   - Copy the token
-
-2. **Configure npm to use GitHub Package Registry:**
-
-Create or edit `.npmrc` file in your project root (or your home directory for global config):
-
-```
-@ampeco:registry=https://npm.pkg.github.com
-//npm.pkg.github.com/:_authToken=YOUR_GITHUB_TOKEN
-```
-
-Replace `YOUR_GITHUB_TOKEN` with your personal access token.
-
-Alternatively, you can authenticate using npm login:
-
-```shell
-npm login --scope=@ampeco --auth-type=legacy --registry=https://npm.pkg.github.com
-```
-
-3. **Install the package:**
+1. **Install the package:**
 
 ```shell
 npm install @ampeco/ampeco-ui
@@ -120,6 +94,6 @@ The component library documentation is available via Storybook, automatically de
 
 ## Publishing
 
-For information on how to publish this package to GitHub Package Registry, see [PUBLISHING.md](./PUBLISHING.md).
+For information on how to publish this package to npm, see [PUBLISHING.md](./PUBLISHING.md).
 
 For information on deploying Storybook to GitHub Pages, see [GITHUB_PAGES_SETUP.md](./GITHUB_PAGES_SETUP.md).

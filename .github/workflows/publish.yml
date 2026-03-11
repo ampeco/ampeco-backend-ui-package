@@ -62,4 +62,4 @@ jobs:
 
       - name: Build and publish to npm
         if: steps.check-version.outputs.should_publish == 'true'
-        run: npm run build:lib && npm publish --provenance --access public
+        run: npm install -g npm@latest && npm run build:lib && npm publish --provenance --access public

@@ -1,4 +1,4 @@
-name: Publish to GitHub Packages
+name: Publish to npm
 
 on:
   release:
@@ -15,8 +15,8 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       contents: read
-      packages: write
-    
+      id-token: write
+
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -25,7 +25,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           node-version: '20.x'
-          registry-url: 'https://npm.pkg.github.com'
+          registry-url: 'https://registry.npmjs.org'
           scope: '@ampeco'
 
       - name: Install dependencies
@@ -40,11 +40,11 @@ jobs:
         run: |
           PACKAGE_VERSION="${{ steps.package-version.outputs.version }}"
           echo "Current package.json version: $PACKAGE_VERSION"
-          
-          # Try to get the published version from GitHub Packages
-          PUBLISHED_VERSION=$(npm view @ampeco/ampeco-ui version --registry=https://npm.pkg.github.com 2>/dev/null || echo "none")
+
+          # Try to get the published version from npm
+          PUBLISHED_VERSION=$(npm view @ampeco/ampeco-ui version --registry=https://registry.npmjs.org 2>/dev/null || echo "none")
           echo "Published version: $PUBLISHED_VERSION"
-          
+
           if [ "$PACKAGE_VERSION" = "$PUBLISHED_VERSION" ]; then
             echo "Version $PACKAGE_VERSION is already published. Skipping publish."
             echo "should_publish=false" >> $GITHUB_OUTPUT
@@ -52,8 +52,6 @@ jobs:
             echo "Version $PACKAGE_VERSION is new. Will publish."
             echo "should_publish=true" >> $GITHUB_OUTPUT
           fi
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Run tests
         if: steps.check-version.outputs.should_publish == 'true'
@@ -63,9 +61,7 @@ jobs:
         if: steps.check-version.outputs.should_publish == 'true' && github.event.inputs.version != ''
         run: npm version ${{ github.event.inputs.version }} --no-git-tag-version
 
-      - name: Build and publish to GitHub Packages
+      - name: Build and publish to npm
         if: steps.check-version.outputs.should_publish == 'true'
-        run: npm run package:publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: npm run build:lib && npm publish --provenance --access public
 

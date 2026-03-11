@@ -23,7 +23,7 @@
 		"url": "git+https://github.com/ampeco/ampeco-backend-ui-package.git"
 	},
 	"publishConfig": {
-		"registry": "https://npm.pkg.github.com"
+		"registry": "https://registry.npmjs.org"
 	},
 	"files": [
 		"dist",
